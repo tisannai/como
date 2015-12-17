@@ -1,0 +1,50 @@
+# Como
+
+Como library provides low manifest command line option parsing and
+deployment. The command line options are described in compact table
+format and option values are stored to conveniently named
+properties. Como builds command usage information based on the option
+table (+ generic program info) and displays it automatically if
+necessary. Como supports also subcommands.
+
+
+# Building
+
+Como is build using autotools flow. Run "autogen.sh" to get all basic
+files setup.
+
+
+# Documentation
+
+Manual page for Como is included in the installation (see: man/).
+
+The source code is documented in Doxygen format. Documentation can be
+generated with:
+
+  doxygen .doxygen
+
+como.h related file will include the usage information (equal to man
+page).
+
+
+# Examples
+
+There are two simple examples in the "examples/" directory:
+como_simple.c and como_subcmd.c.
+
+For a complete set of features, see the test programs in "test/"
+directory (*.c).
+
+
+# Testing
+
+Testsuite is executed by running "rake test" and results are cleaned
+with "rake clean_test"
+
+
+# Copyright
+
+See: COPYING
+
+
+Como library by Tero Isannainen, (c) Copyright 2015.

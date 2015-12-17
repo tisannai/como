@@ -1,0 +1,215 @@
+---- CMD: como_config
+Given "help": false
+Given "doc": false
+Given "file": false
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": false
+Given "<default>": false
+---- CMD: como_config --doc
+Given "help": false
+Given "doc": true
+Value "doc": []
+Given "file": false
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": false
+Given "<default>": false
+---- CMD: como_config --doc -f
+
+como_config error: No argument given for "-f"...
+
+Additional heading info.
+
+  como_config [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc     Documentation.
+  -f        File argument.
+  --debug   Enable debugging.
+  -m        Mode.
+  --params  Parameters.
+  -t        Types.
+  -d        Directory argument(s).
+  <default> Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+Additional footer info.
+
+---- CMD: como_config --doc -f foo
+Given "help": false
+Given "doc": true
+Value "doc": []
+Given "file": true
+Value "file": foo
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": false
+Given "<default>": false
+---- CMD: como_config -f
+
+como_config error: No argument given for "-f"...
+
+Additional heading info.
+
+  como_config [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc     Documentation.
+  -f        File argument.
+  --debug   Enable debugging.
+  -m        Mode.
+  --params  Parameters.
+  -t        Types.
+  -d        Directory argument(s).
+  <default> Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+Additional footer info.
+
+---- CMD: como_config -f dii
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": false
+Given "<default>": false
+---- CMD: como_config -f dii -d
+
+como_config error: No argument given for "-d"...
+
+Additional heading info.
+
+  como_config [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc     Documentation.
+  -f        File argument.
+  --debug   Enable debugging.
+  -m        Mode.
+  --params  Parameters.
+  -t        Types.
+  -d        Directory argument(s).
+  <default> Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+Additional footer info.
+
+---- CMD: como_config --file dii -d d1
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_config --file dii -d d1 d2
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1", "d2"]
+Given "<default>": false
+---- CMD: como_config --debug -f dii -d d1
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": true
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_config -h
+
+Additional heading info.
+
+  como_config [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc     Documentation.
+  -f        File argument.
+  --debug   Enable debugging.
+  -m        Mode.
+  --params  Parameters.
+  -t        Types.
+  -d        Directory argument(s).
+  <default> Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+Additional footer info.
+
+Given "help": true
+Given "doc": false
+Given "file": false
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": false
+Given "<default>": false
+---- CMD: como_config -h --debug -f dii -d d1
+
+Additional heading info.
+
+  como_config [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc     Documentation.
+  -f        File argument.
+  --debug   Enable debugging.
+  -m        Mode.
+  --params  Parameters.
+  -t        Types.
+  -d        Directory argument(s).
+  <default> Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+Additional footer info.
+
+Given "help": true
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": true
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false

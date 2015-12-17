@@ -1,0 +1,29 @@
+como_options
+como_options --doc
+como_options --doc -f
+como_options --doc -f foo
+como_options -f
+como_options -f dii
+como_options -f dii -d
+como_options --file dii -d d1
+como_options --file dii -d d1 d2
+como_options --debug -f dii -d d1
+como_options -f dii -d d1 --debug
+como_options -f dii -d d1 --debug -m foo
+como_options -f dii -d d1 --debug -m foo
+como_options -f dii -d d1 --params foo=bar dii=duu
+como_options -f dii -d d1 --params foo=bar dii=duu -t
+como_options -f dii -d d1 --params foo=bar dii=duu -t duu dii
+como_options -f dii -d d1 --params foo=bar dii=duu -t duu dii left over
+como_options -f dii -d d1 -t --params foo=bar dii=duu left over
+como_options -t duu dii --params foo=bar dii=duu -f dii -d d1 left over
+como_options -f dii -d d1 -t duu dii --params foo=bar dii=duu - left over
+como_options -f dii -d d1 -t duu dii - left over -- external arguments
+como_options -f foo -- external arguments
+como_options -f foo -t
+como_options -q dii -f foo -t
+como_options -d -q dii -f foo -t
+como_options -f foo -d dir
+como_options -f foo -d dir -h
+como_options -h -f foo -d dir
+como_options --doc doc1 doc2

@@ -1,0 +1,12 @@
+como_config
+como_config --doc
+como_config --doc -f
+como_config --doc -f foo
+como_config -f
+como_config -f dii
+como_config -f dii -d
+como_config --file dii -d d1
+como_config --file dii -d d1 d2
+como_config --debug -f dii -d d1
+como_config -h
+como_config -h --debug -f dii -d d1

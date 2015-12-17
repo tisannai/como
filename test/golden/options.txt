@@ -1,0 +1,467 @@
+---- CMD: como_options
+
+como_options error: Option "-f" missing for "como_options"...
+
+  como_options [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc       Documentation for option
+              with too much description
+              for one line.
+  -f          File argument.
+  --debug     Enable debugging.
+  -m          Mode.
+  --params    Parameters.
+  -t          Types.
+  -d          Directory argument(s).
+  <default>   Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_options --doc
+Given "help": false
+Given "doc": true
+Value "doc": []
+Given "file": false
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": false
+Given "<default>": false
+---- CMD: como_options --doc -f
+
+como_options error: No argument given for "-f"...
+
+  como_options [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc       Documentation for option
+              with too much description
+              for one line.
+  -f          File argument.
+  --debug     Enable debugging.
+  -m          Mode.
+  --params    Parameters.
+  -t          Types.
+  -d          Directory argument(s).
+  <default>   Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_options --doc -f foo
+Given "help": false
+Given "doc": true
+Value "doc": []
+Given "file": true
+Value "file": foo
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": false
+Given "<default>": false
+---- CMD: como_options -f
+
+como_options error: No argument given for "-f"...
+
+  como_options [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc       Documentation for option
+              with too much description
+              for one line.
+  -f          File argument.
+  --debug     Enable debugging.
+  -m          Mode.
+  --params    Parameters.
+  -t          Types.
+  -d          Directory argument(s).
+  <default>   Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_options -f dii
+
+como_options error: Option "-d" missing for "como_options"...
+
+  como_options [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc       Documentation for option
+              with too much description
+              for one line.
+  -f          File argument.
+  --debug     Enable debugging.
+  -m          Mode.
+  --params    Parameters.
+  -t          Types.
+  -d          Directory argument(s).
+  <default>   Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_options -f dii -d
+
+como_options error: No argument given for "-d"...
+
+  como_options [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc       Documentation for option
+              with too much description
+              for one line.
+  -f          File argument.
+  --debug     Enable debugging.
+  -m          Mode.
+  --params    Parameters.
+  -t          Types.
+  -d          Directory argument(s).
+  <default>   Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_options --file dii -d d1
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_options --file dii -d d1 d2
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1", "d2"]
+Given "<default>": false
+---- CMD: como_options --debug -f dii -d d1
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": true
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_options -f dii -d d1 --debug
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": true
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_options -f dii -d d1 --debug -m foo
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": true
+Given "mode": true
+Value "mode": foo
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_options -f dii -d d1 --debug -m foo
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": true
+Given "mode": true
+Value "mode": foo
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_options -f dii -d d1 --params foo=bar dii=duu
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": true
+Value "params": ["foo=bar", "dii=duu"]
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_options -f dii -d d1 --params foo=bar dii=duu -t
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": true
+Value "params": ["foo=bar", "dii=duu"]
+Given "types": true
+Value "types": []
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_options -f dii -d d1 --params foo=bar dii=duu -t duu dii
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": true
+Value "params": ["foo=bar", "dii=duu"]
+Given "types": true
+Value "types": ["duu", "dii"]
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_options -f dii -d d1 --params foo=bar dii=duu -t duu dii left over
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": true
+Value "params": ["foo=bar", "dii=duu"]
+Given "types": true
+Value "types": ["duu", "dii", "left", "over"]
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_options -f dii -d d1 -t --params foo=bar dii=duu left over
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": true
+Value "params": ["foo=bar", "dii=duu", "left", "over"]
+Given "types": true
+Value "types": []
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": false
+---- CMD: como_options -t duu dii --params foo=bar dii=duu -f dii -d d1 left over
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": true
+Value "params": ["foo=bar", "dii=duu"]
+Given "types": true
+Value "types": ["duu", "dii"]
+Given "terminator": false
+Given "dir": true
+Value "dir": ["d1", "left", "over"]
+Given "<default>": false
+---- CMD: como_options -f dii -d d1 -t duu dii --params foo=bar dii=duu - left over
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": true
+Value "params": ["foo=bar", "dii=duu"]
+Given "types": true
+Value "types": ["duu", "dii"]
+Given "terminator": true
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": true
+Value "<default>": ["left", "over"]
+---- CMD: como_options -f dii -d d1 -t duu dii - left over -- external arguments
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": dii
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": true
+Value "types": ["duu", "dii"]
+Given "terminator": true
+Given "dir": true
+Value "dir": ["d1"]
+Given "<default>": true
+Value "<default>": ["left", "over"]
+External: ["external", "arguments"]
+---- CMD: como_options -f foo -- external arguments
+
+como_options error: Option "-d" missing for "como_options"...
+
+  como_options [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc       Documentation for option
+              with too much description
+              for one line.
+  -f          File argument.
+  --debug     Enable debugging.
+  -m          Mode.
+  --params    Parameters.
+  -t          Types.
+  -d          Directory argument(s).
+  <default>   Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_options -f foo -t
+
+como_options error: Option "-d" missing for "como_options"...
+
+  como_options [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc       Documentation for option
+              with too much description
+              for one line.
+  -f          File argument.
+  --debug     Enable debugging.
+  -m          Mode.
+  --params    Parameters.
+  -t          Types.
+  -d          Directory argument(s).
+  <default>   Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_options -q dii -f foo -t
+
+como_options error: Unknown option "-q"...
+
+  como_options [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc       Documentation for option
+              with too much description
+              for one line.
+  -f          File argument.
+  --debug     Enable debugging.
+  -m          Mode.
+  --params    Parameters.
+  -t          Types.
+  -d          Directory argument(s).
+  <default>   Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_options -d -q dii -f foo -t
+
+como_options error: No argument given for "-d"...
+
+  como_options [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc       Documentation for option
+              with too much description
+              for one line.
+  -f          File argument.
+  --debug     Enable debugging.
+  -m          Mode.
+  --params    Parameters.
+  -t          Types.
+  -d          Directory argument(s).
+  <default>   Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_options -f foo -d dir
+Given "help": false
+Given "doc": false
+Given "file": true
+Value "file": foo
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": true
+Value "dir": ["dir"]
+Given "<default>": false
+---- CMD: como_options -f foo -d dir -h
+
+  como_options [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc       Documentation for option
+              with too much description
+              for one line.
+  -f          File argument.
+  --debug     Enable debugging.
+  -m          Mode.
+  --params    Parameters.
+  -t          Types.
+  -d          Directory argument(s).
+  <default>   Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_options -h -f foo -d dir
+
+  como_options [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+
+  --doc       Documentation for option
+              with too much description
+              for one line.
+  -f          File argument.
+  --debug     Enable debugging.
+  -m          Mode.
+  --params    Parameters.
+  -t          Types.
+  -d          Directory argument(s).
+  <default>   Leftovers.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_options --doc doc1 doc2
+Given "help": false
+Given "doc": true
+Value "doc": ["doc1", "doc2"]
+Given "file": false
+Given "debug": false
+Given "mode": false
+Given "params": false
+Given "types": false
+Given "terminator": false
+Given "dir": false
+Given "<default>": false

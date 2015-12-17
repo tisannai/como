@@ -1,0 +1,366 @@
+---- CMD: como_subcmd
+
+como_subcmd error: Subcommand required for "como_subcmd"...
+
+  como_subcmd [-p <password>] [-u <username>+] <<subcommand>>
+
+  Options:
+  -p          User password.
+  -u          Username(s).
+
+  Subcommands:
+  add         Add file to repo.
+  rm          Remove file from repo.
+  commit      Commit (pending) changes to repo.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_subcmd -p passwd
+
+como_subcmd error: Subcommand required for "como_subcmd"...
+
+  como_subcmd [-p <password>] [-u <username>+] <<subcommand>>
+
+  Options:
+  -p          User password.
+  -u          Username(s).
+
+  Subcommands:
+  add         Add file to repo.
+  rm          Remove file from repo.
+  commit      Commit (pending) changes to repo.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_subcmd add
+
+como_subcmd error: Option "-f" missing for "como_subcmd add"...
+
+  Subcommand "add" usage:
+    como_subcmd add [-fo] [-u <username>] -f <file>
+
+  -fo         Force operation.
+  -u          Username.
+  -f          File.
+
+
+---- CMD: como_subcmd add -f
+
+como_subcmd error: No argument given for "-f"...
+
+  Subcommand "add" usage:
+    como_subcmd add [-fo] [-u <username>] -f <file>
+
+  -fo         Force operation.
+  -u          Username.
+  -f          File.
+
+
+---- CMD: como_subcmd add -f file
+Options for: como_subcmd
+  Given "help": false
+  Given "password": false
+  Given "username": false
+  Given "terminator": false
+  Given "add": true
+  Given "rm": false
+  Given "commit": false
+Options for: add
+  Given "help": false
+  Given "force": false
+  Given "username": false
+  Given "file": true
+  Value "file": file
+---- CMD: como_subcmd -p pass add -f file
+Options for: como_subcmd
+  Given "help": false
+  Given "password": true
+  Value "password": pass
+  Given "username": false
+  Given "terminator": false
+  Given "add": true
+  Given "rm": false
+  Given "commit": false
+Options for: add
+  Given "help": false
+  Given "force": false
+  Given "username": false
+  Given "file": true
+  Value "file": file
+---- CMD: como_subcmd -p pass -u name1 add -f file
+
+como_subcmd error: Unknown option "-f"...
+
+  como_subcmd [-p <password>] [-u <username>+] <<subcommand>>
+
+  Options:
+  -p          User password.
+  -u          Username(s).
+
+  Subcommands:
+  add         Add file to repo.
+  rm          Remove file from repo.
+  commit      Commit (pending) changes to repo.
+
+
+  Copyright (c) 2013 by Como Tester
+
+---- CMD: como_subcmd -p pass -u name1 - add -f file
+Options for: como_subcmd
+  Given "help": false
+  Given "password": true
+  Value "password": pass
+  Given "username": true
+  Value "username": ["name1"]
+  Given "terminator": true
+  Given "add": true
+  Given "rm": false
+  Given "commit": false
+Options for: add
+  Given "help": false
+  Given "force": false
+  Given "username": false
+  Given "file": true
+  Value "file": file
+---- CMD: como_subcmd -p pass add -f file -u user
+Options for: como_subcmd
+  Given "help": false
+  Given "password": true
+  Value "password": pass
+  Given "username": false
+  Given "terminator": false
+  Given "add": true
+  Given "rm": false
+  Given "commit": false
+Options for: add
+  Given "help": false
+  Given "force": false
+  Given "username": true
+  Value "username": user
+  Given "file": true
+  Value "file": file
+---- CMD: como_subcmd -p pass add -f file
+Options for: como_subcmd
+  Given "help": false
+  Given "password": true
+  Value "password": pass
+  Given "username": false
+  Given "terminator": false
+  Given "add": true
+  Given "rm": false
+  Given "commit": false
+Options for: add
+  Given "help": false
+  Given "force": false
+  Given "username": false
+  Given "file": true
+  Value "file": file
+---- CMD: como_subcmd -p pass add -f file -fo
+Options for: como_subcmd
+  Given "help": false
+  Given "password": true
+  Value "password": pass
+  Given "username": false
+  Given "terminator": false
+  Given "add": true
+  Given "rm": false
+  Given "commit": false
+Options for: add
+  Given "help": false
+  Given "force": true
+  Given "username": false
+  Given "file": true
+  Value "file": file
+---- CMD: como_subcmd -p pass add -f file -fo -h
+
+  Subcommand "add" usage:
+    como_subcmd add [-fo] [-u <username>] -f <file>
+
+  -fo         Force operation.
+  -u          Username.
+  -f          File.
+
+
+---- CMD: como_subcmd -p pass add -f file -fo rm
+
+como_subcmd error: No default option specified to allow "rm"...
+
+  Subcommand "add" usage:
+    como_subcmd add [-fo] [-u <username>] -f <file>
+
+  -fo         Force operation.
+  -u          Username.
+  -f          File.
+
+
+---- CMD: como_subcmd add -f file -fo commit
+
+como_subcmd error: No default option specified to allow "commit"...
+
+  Subcommand "add" usage:
+    como_subcmd add [-fo] [-u <username>] -f <file>
+
+  -fo         Force operation.
+  -u          Username.
+  -f          File.
+
+
+---- CMD: como_subcmd -p pass add -f file -fo commit
+
+como_subcmd error: No default option specified to allow "commit"...
+
+  Subcommand "add" usage:
+    como_subcmd add [-fo] [-u <username>] -f <file>
+
+  -fo         Force operation.
+  -u          Username.
+  -f          File.
+
+
+---- CMD: como_subcmd -p pass rm
+Options for: como_subcmd
+  Given "help": false
+  Given "password": true
+  Value "password": pass
+  Given "username": false
+  Given "terminator": false
+  Given "add": false
+  Given "rm": true
+  Given "commit": false
+Options for: rm
+  Given "help": false
+  Given "force": false
+  Given "file": false
+---- CMD: como_subcmd -p pass rm commit
+
+como_subcmd error: No default option specified to allow "commit"...
+
+  Subcommand "rm" usage:
+    como_subcmd rm [-fo] [-f <file>]
+
+  -fo         Force operation.
+  -f          File.
+
+
+---- CMD: como_subcmd -p pass rm -f commit
+Options for: como_subcmd
+  Given "help": false
+  Given "password": true
+  Value "password": pass
+  Given "username": false
+  Given "terminator": false
+  Given "add": false
+  Given "rm": true
+  Given "commit": false
+Options for: rm
+  Given "help": false
+  Given "force": false
+  Given "file": true
+  Value "file": commit
+---- CMD: como_subcmd -p pass commit
+Options for: como_subcmd
+  Given "help": false
+  Given "password": true
+  Value "password": pass
+  Given "username": false
+  Given "terminator": false
+  Given "add": false
+  Given "rm": false
+  Given "commit": true
+Options for: commit
+  Given "help": false
+  Given "quiet": false
+  Given "username": false
+  Given "<default>": false
+---- CMD: como_subcmd -p pass commit dii duu
+Options for: como_subcmd
+  Given "help": false
+  Given "password": true
+  Value "password": pass
+  Given "username": false
+  Given "terminator": false
+  Given "add": false
+  Given "rm": false
+  Given "commit": true
+Options for: commit
+  Given "help": false
+  Given "quiet": false
+  Given "username": false
+  Given "<default>": true
+  Value "<default>": ["dii", "duu"]
+---- CMD: como_subcmd -p pass commit -u user1 dii duu
+Options for: como_subcmd
+  Given "help": false
+  Given "password": true
+  Value "password": pass
+  Given "username": false
+  Given "terminator": false
+  Given "add": false
+  Given "rm": false
+  Given "commit": true
+Options for: commit
+  Given "help": false
+  Given "quiet": false
+  Given "username": true
+  Value "username": user1
+  Given "<default>": true
+  Value "<default>": ["dii", "duu"]
+---- CMD: como_subcmd -p pass commit -u user1 dii duu -h
+
+  Subcommand "commit" usage:
+    como_subcmd commit [-q] [-u <username>] [<default>]
+
+  -q          Quiet operation.
+  -u          Username.
+  <default>   File(s) to commit.
+
+
+---- CMD: como_subcmd -p pass commit -h -u user1 dii duu
+
+  Subcommand "commit" usage:
+    como_subcmd commit [-q] [-u <username>] [<default>]
+
+  -q          Quiet operation.
+  -u          Username.
+  <default>   File(s) to commit.
+
+
+---- CMD: como_subcmd commit -h -u user1 dii duu -h
+
+  Subcommand "commit" usage:
+    como_subcmd commit [-q] [-u <username>] [<default>]
+
+  -q          Quiet operation.
+  -u          Username.
+  <default>   File(s) to commit.
+
+
+---- CMD: como_subcmd commit -u user1 dii duu -h
+
+  Subcommand "commit" usage:
+    como_subcmd commit [-q] [-u <username>] [<default>]
+
+  -q          Quiet operation.
+  -u          Username.
+  <default>   File(s) to commit.
+
+
+---- CMD: como_subcmd -p foo commit foo -- external arguments
+Options for: como_subcmd
+  Given "help": false
+  Given "password": true
+  Value "password": foo
+  Given "username": false
+  Given "terminator": false
+  Given "add": false
+  Given "rm": false
+  Given "commit": true
+Options for: commit
+  Given "help": false
+  Given "quiet": false
+  Given "username": false
+  Given "<default>": true
+  Value "<default>": ["foo"]
+External: ["external", "arguments"]

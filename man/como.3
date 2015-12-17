@@ -1,0 +1,820 @@
+'\" t
+.\"     Title: como
+.\"    Author: [see the "AUTHOR" section]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 12/16/2015
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "COMO" "3" "12/16/2015" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+como \- Command Line Option Parser Library
+.SH "VERSION"
+.sp
+Como Lib 0\&.1 (2015\-12\-15)
+.SH "INTERFACE"
+.sp
+\fBOption specification\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  #como_command( prog,author,year,\&.\&.\&. )
+  #como_maincmd( prog,author,year,\&.\&.\&. )
+  #como_subcmd( name,parentname,\&.\&.\&. )
+  void como_finish( void );
+  void como_end( void );
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+\fBOption queries\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  como_opt_t* como_opt( char* name );
+  char**      como_value( char* name );
+  como_opt_t* como_given( char* name );
+  como_opt_t* como_cmd_opt( como_cmd_t* cmd, char* name );
+  char**      como_cmd_value( como_cmd_t* cmd, char* name );
+  como_opt_t* como_cmd_given( como_cmd_t* cmd, char* name );
+  como_cmd_t* como_cmd_subcmd( como_cmd_t*, char* name );
+  como_cmd_t* como_given_subcmd( void );
+  como_cmd_t* como_cmd_given_subcmd( como_cmd_t* parent );
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+\fBConfiguration option setting functions\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  void como_conf_autohelp( bool_t val );
+  void como_conf_header( char* val );
+  void como_conf_footer( char* val );
+  void como_conf_subcheck( bool_t val );
+  void como_conf_check_missing( bool_t val );
+  void como_conf_check_invalid( bool_t val );
+  void como_conf_tab( int val );
+  void como_conf_help_exit( bool_t val );
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+\fBGeneric functions\fR
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  void como_error( const char* format, \&.\&.\&. );
+  void como_usage( void );
+  void como_cmd_usage( como_cmd_t* cmd );
+.fi
+.if n \{\
+.RE
+.\}
+.SH "INTRODUCTION"
+.sp
+Como provides low manifest command line option parsing and deployment\&. The command line options are described in compact table format and option values are stored to conveniently named properties\&. Como builds command usage information based on the option table (+ generic program info) and displays it automatically if necessary\&. Como supports also subcommands\&.
+.SH "USAGE EXAMPLES"
+.sp
+Two simple examples are presented in this section\&. First one includes a straight forward command definition and the second is a bit more complicated with subcommand feature in use\&.
+.SH "SIMPLE EXAMPLE"
+.sp
+Below is a small example program ("como_simple") that demonstrates typical usage\&.
+.SS "Program listing"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+#include <stdio\&.h>
+#include <como\&.h>
+
+int main( int argc, char** argv )
+{
+  como_opt_t* opt;
+
+  /* Specify program and all the options\&. Parsing and help is managed
+     automatically\&. */
+  como_command( "como_simple", "Programmer", "2014",
+                { COMO_SINGLE, "file",  "\-f", "File argument\&." },
+                { COMO_SWITCH, "debug", "\-d", "Enable debugging\&." }
+                );
+
+  /* Get handle of option "file"\&. */
+  opt = como_opt( "file" );
+
+  /* Print "file" option\*(Aqs properties\&. */
+  printf( "Option \e"%s\e" is given: %d\en", opt\->name, opt\->given );
+
+  /* Print "file" option\*(Aqs value if option was given\&. */
+  if ( opt\->given )
+    {
+      char** value;
+
+      printf( "Option \e"%s\e" values:\en", opt\->name );
+
+      value = opt\->value;
+      while ( *value )
+        {
+          printf( "  %s\en", *value );
+          value++;
+        }
+    }
+
+  /* Print "debug" option\*(Aqs "given" property\&. */
+  printf( "Option \e"%s\e" is given: %d\en", "debug", como_given( "debug" ) );
+
+  return 0;
+}
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+First Como and other essential headers are included\&.
+.sp
+"como_command" function takes 4 arguments:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  progname:       Name of the program (or command)\&.
+  author:         Author of the program\&.
+  year:           Year (or any date) for the program\&.
+  option table:   Description of the command options\&.
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Each option table entry (row/sub\-array) includes 4 fields and specifies one option:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  [ type, name, mnemonic, doc ]
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+Two different types are present in the example
+.RS 4
+single: Single means that the option requires one argument (and only one)\&. switch: Switch is an optional flag (default value is false)\&.
+.RE
+.sp
+Option name is used to reference the option value that user has given\&. The command line option values are stored automatically\&. For example the file option value is returned by (array with NULL termination):
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  opt\->value
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+or without the option reference directly by option name:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  como_value( "file" )
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+A single value can be directly accessed with:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  opt\->value[0]
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+The option name also doubles as long option format, i\&.e\&. one could use "\-\-file <filename>" on the command line\&.
+.sp
+Existence of optional options can be tested using the "given" function\&. For example:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  como_given( "debug" )
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+would return "non\-null" if "\-d" was given on the command line\&.
+.sp
+Mnemonic is the short form option specification e\&.g\&. "\-f"\&. If short form is replaced with "NULL", the long option format is only available\&.
+.sp
+Doc includes documentation for the option\&. It is displayed when "help" ("\-h") option is given\&. Help option is added to the command automatically as default behavior\&.
+.SS "Simple example executions"
+.sp
+Normal behavior would be achieved by executing:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  shell> como_simple \-f example \-d
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+The program would execute with the following output:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  Option "file" is given: 1
+  Option "file" values:
+    example
+  Option "debug" is given: 1
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Same output would be achieved with:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  shell> como_simple \-\-file example \-\-debug
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Since option name doubles as long option\&.
+.sp
+Como includes certain "extra" behavior out\-of\-box\&. Required arguments are checked for existence and error is displayed if arguments are not given\&.
+.sp
+For example given the command:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  shell> como_simple
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+The following is displayed on the screen:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+ como_simple error: Option "\-f" missing for "como_simple"\&.\&.\&.
+
+   Usage:
+   como_simple \-f <file> [\-d]
+
+   \-f          File argument\&.
+   \-d          Enable debugging\&.
+
+
+   Copyright (c) 2013 by Programmer
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Missing option error is displayed since "file" is a mandatory option\&. The error message is followed by "usage" display (Usage Help)\&. Documentation string is taken from the option specification to "usage" display\&.
+.sp
+Given the command:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  shell> como_simple \-h
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+would display the same "usage" screen except without the error line\&.
+.SH "SUBCOMMAND EXAMPLE"
+.sp
+Subcmd example includes a program which has subcommands\&. Subcommands can have their own command line switches and options\&.
+.SS "Program listing"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+#include <stdio\&.h>
+#include <como\&.h>
+
+
+/**
+ * Hierarchically show results for options\&.
+ */
+void display_options( como_cmd_t* cmd )
+{
+  como_cmd_t* subcmd;
+  como_opt_t** opts, *o;
+
+  printf( "Options for: %s\en", cmd\->name );
+
+  opts = cmd\->opts;
+  while ( *opts )
+    {
+      o = *opts;
+
+      printf( "  Given \e"%s\e": %s\en", o\->name, o\->given ? "true" : "false" );
+
+      if ( o\->given && o\->value )
+        {
+          printf( "  Value \e"%s\e": ", o\->name );
+          como_display_values( stdout, o );
+          printf( "\en" );
+        }
+
+      opts++;
+    }
+
+  subcmd = como_cmd_given_subcmd( cmd );
+  if ( subcmd )
+    display_options( subcmd );
+}
+
+
+int main( int argc, char** argv )
+{
+  como_maincmd( "como_subcmd", "Como Tester", "2013",
+                { COMO_SUBCMD,     "add",        NULL, "Add file to repo\&." },
+                { COMO_SUBCMD,     "rm",         NULL, "Remove file from repo\&." },
+                );
+
+  como_subcmd( "add", "como_subcmd",
+               { COMO_SWITCH,      "force",     "\-fo", "Force operation\&." },
+               { COMO_OPT_SINGLE,  "password",  "\-p",  "User password\&." },
+               { COMO_OPT_SINGLE,  "username",  "\-u",  "Username\&." },
+               { COMO_SINGLE,      "file",      "\-f",  "File\&." }
+               );
+
+  como_subcmd( "rm", "como_subcmd",
+               { COMO_SWITCH,      "force",     "\-fo", "Force operation\&." },
+               { COMO_OPT_SINGLE,  "file",      "\-f",  "File\&." }
+               );
+
+  como_finish();
+
+  display_options( como_cmd );
+
+  if ( como_cmd\->external )
+    {
+      char** value;
+      bool_t first = true;
+
+      printf( "External: [" );
+
+      value = como_cmd\->external;
+
+      while ( *value )
+        {
+          if ( !first )
+            printf( ", " );
+          printf( "\e"%s\e"", *value );
+          first = false;
+          value++;
+        }
+
+      printf( "]\en" );
+    }
+
+  return 0;
+}
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+"como_maincmd" function defines a program (command) with possible subcommands\&. Program name, author and date are provided as parameters\&. The rest of the parameters defined the options and/or subcmds\&.
+.sp
+The "como\-subcmd" functions define subcommands for the parent command\&. This example includes one subcommand level, but multiple levels are allowed\&.
+.sp
+"como_finish" is marker for complete program options definion\&. It will start parsing and checking for options\&. After "como_finish" the user can query the options\&.
+.sp
+Main (root) commands can be referenced through variables:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  como_main or como_cmd
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+The subcommands can be referenced through "como_main" (etc\&.)
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  como_given_subcmd
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+or by name
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  como_subcmd( "add" )
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+The queries have too versions: "como_<query>" and "como_cmd_<query>"\&. For "como_<query>" it is assumed that the query is targeted to como_main\&. For "como_cmd_<query>" the first argument is always a "como_cmd_t*" which defines the scope of query\&.
+.SS "Subcommand example executions"
+.sp
+Normal behavior would be achieved by executing:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  shell> como_subcmd add \-fo \-f example
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+The program would execute with the following output:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  Options for: como_subcmd
+    Given "help": false
+    Given "add": true
+    Given "rm": false
+  Options for: add
+    Given "help": false
+    Given "force": true
+    Given "password": false
+    Given "username": false
+    Given "file": true
+    Value "file": example
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Help is automatically provided on each command level, thus these are both valid\&.
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  shell> como_subcmd \-h
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+and
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  shell> como_subcmd rm \-h
+.fi
+.if n \{\
+.RE
+.\}
+.SH "OPTION SPECIFICATION"
+.SS "Overview"
+.sp
+Option specification includes the minimum set of information required for command line parsing\&. It is used to:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Parse the command line\&.
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Check for wrong options and report\&.
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Check for mandatory arguments and report\&.
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Set the options given/non\-given state\&.
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Set the options value\&. Array/String for all except no value for
+switches (check given property instead)\&.
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Generate Usage Help printout\&.
+.fi
+.if n \{\
+.RE
+.\}
+.SS "Option types"
+.sp
+The following types can be defined for the command line options:
+.PP
+COMO_SUBCMD
+.RS 4
+Subcmd option\&. Subcmd specific options are provided separately\&.
+.RE
+.PP
+COMO_SWITCH
+.RS 4
+Single switch option (no arguments)\&.
+.RE
+.PP
+COMO_SINGLE
+.RS 4
+Mandatory single argument option\&.
+.RE
+.PP
+COMO_MULTI
+.RS 4
+Mandatory multiple argument option (one or many)\&. Option values in array\&.
+.RE
+.PP
+COMO_OPT_SINGLE
+.RS 4
+Optional single argument option\&.
+.RE
+.PP
+COMO_OPT_MULTI
+.RS 4
+Optional multiple argument option (one or many)\&. Option values in array\&.
+.RE
+.PP
+COMO_OPT_ANY
+.RS 4
+Optional multiple argument option (also none accepted)\&. Option values in array\&.
+.RE
+.PP
+COMO_DEFAULT
+.RS 4
+Default option (no switch associated)\&. Name and option String values can be left out, since only the document string is used\&. Default option is referred with NULL for name\&.
+.RE
+.PP
+COMO_EXCLUSIVE
+.RS 4
+Option that does not coexist with other options\&.
+.RE
+.PP
+COMO_SILENT
+.RS 4
+Option that does not coexist with other options and is not displayed as an option in Usage Help display\&. In effect a sub\-option of :exclusive\&.
+.RE
+.sp
+Options use all the 4 option fields:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  [ type, name, mnemonic, doc ]
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+"type" field is mandatory for all options\&.
+.sp
+"name" field is also mandatory for all options\&. "mnemonic" can be left out (set to NULL), but then option accepts only long option format\&.
+.sp
+"COMO_DEFAULT" uses only "doc" and "COMO_SUBCMD" doesn\(cqt use the "mnemonic" field\&. Those fields should be set to "NULL", however\&.
+.sp
+"COMO_MULTI", "COMO_OPT_MULTI", and "COMO_OPT_ANY" option arguments are terminated only when an option specifier is found\&. This can be a problem if "COMO_DEFAULT" option follows\&. The recommended solution is to use a "COMO_SILENT" option that can be used to terminate the argument list\&. For example:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  { COMO_SILENT, "terminator", "\-", "The terminator\&." },
+.fi
+.if n \{\
+.RE
+.\}
+.SS "Option specification function configuration"
+.sp
+Option behavior can be controlled with several configuration options\&.
+.sp
+The configuration options are set by execution configuration function\&. These are the called after option has been specified and before como_finish\&. Setting the configuration at "como_maincmd" will propagate the config options to all the subcommands as well\&. Configuration can be given to each subcommand separately to override the inherited config values\&. Subcommand settings are not inherited, but apply only in the subcommand\&.
+.sp
+The usable configuration keys:
+.PP
+autohelp
+.RS 4
+Add help option automatically (default: true)\&. Custom help option can be provided and it can be made also visible to user\&.
+.RE
+.PP
+header
+.RS 4
+Header lines before standard usage printout\&.
+.RE
+.PP
+footer
+.RS 4
+Footer lines after standard usage printout\&.
+.RE
+.PP
+subcheck
+.RS 4
+Automatically check that a subcommand is provided (default: true)\&.
+.RE
+.PP
+check_missing
+.RS 4
+Check for missing arguments (default: true)\&.
+.RE
+.PP
+check_invalid
+.RS 4
+Error for unknown options (default: true)\&.
+.RE
+.PP
+tab
+.RS 4
+Tab stop column for option documentation (default: 12)\&.
+.RE
+.PP
+help_exit
+.RS 4
+Exit program if help displayed (default: true)\&.
+.RE
+.SH "OPTION REFERENCING"
+.SS "Existence and values"
+.sp
+como_opt_t includes the parsed option values\&. All options can be tested whether they are specified on the command line using:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  como_given( "name" )
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+or
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  como_cmd_given( cmd, "name" )
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Provided value(s) is returned by:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  como_value( "name" )
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+or
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  como_cmd_value( cmd, "name" )
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+For "COMO_SWITCH" there is no value and for the other types they are string (array of one) or an array of multiple strings\&.
+.sp
+With "COMO_OPT_ANY" type, the user should first check if the option was given:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  como_cmd_given( cmd, "many_files_or_none" )
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Then check how many arguments where given, and finally decide what to do\&. The value array is terminated with NULL\&. The number of values are also stored to "valuecnt" field in como_opt_t struct\&.
+.sp
+Header file "como\&.h" includes user definitions and documentation for user interface functions\&.
+.SS "Subcommand options"
+.sp
+The given subcommand for the parent command is return by "como_given_subcmd" or "como_cmd_given_subcmd"\&. Commonly the program creator should just check directly which subcommand has been selected and check for any subcommand options set\&.
+.SS "Program external options"
+.sp
+If the user gives the "\-\-" option (double\-dash), the arguments after that option is stored as an array to "como_external"\&.
+.SH "CUSTOMIZATION"
+.sp
+If the default behavior is not satisfactory, changes can be implemented simply by complementing the existing functions\&. Some knowledge of the internal workings of Como is required though\&.
+.SH "AUTHOR"
+.sp
+\fBcomo\fR was originally written by Tero Isannainen\&.

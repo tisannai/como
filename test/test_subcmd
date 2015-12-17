@@ -1,0 +1,30 @@
+como_subcmd
+como_subcmd -p passwd
+como_subcmd add
+como_subcmd add -f
+como_subcmd add -f file
+como_subcmd -p pass add -f file
+como_subcmd -p pass -u name1 add -f file
+como_subcmd -p pass -u name1 - add -f file
+
+como_subcmd -p pass add -f file -u user
+como_subcmd -p pass add -f file
+como_subcmd -p pass add -f file -fo
+como_subcmd -p pass add -f file -fo -h
+como_subcmd -p pass add -f file -fo rm
+como_subcmd add -f file -fo commit
+como_subcmd -p pass add -f file -fo commit
+
+como_subcmd -p pass rm
+como_subcmd -p pass rm commit
+como_subcmd -p pass rm -f commit
+
+como_subcmd -p pass commit
+como_subcmd -p pass commit dii duu
+como_subcmd -p pass commit -u user1 dii duu
+como_subcmd -p pass commit -u user1 dii duu -h
+como_subcmd -p pass commit -h -u user1 dii duu
+como_subcmd commit -h -u user1 dii duu -h
+como_subcmd commit -u user1 dii duu -h
+
+como_subcmd -p foo commit foo -- external arguments
