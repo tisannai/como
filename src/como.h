@@ -703,9 +703,9 @@ char** como_value( char* name );
  * 
  * @param name Option name.
  * 
- * @return True if given.
+ * @return Option if given.
  */
-bool_t como_given( char* name );
+como_opt_t* como_given( char* name );
 
 /**
  * Get command option (by name).

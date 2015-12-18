@@ -1037,14 +1037,14 @@ char** como_value( char* name )
 }
 
 
-bool_t como_given( char* name )
+como_opt_t* como_given( char* name )
 {
   como_opt_t* co;
   co = find_opt_by_name( como_cmd, name );
   if ( co->given )
-    return true;
+    return co;
   else
-    return false;
+    return NULL;
 }
 
 
