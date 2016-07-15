@@ -309,15 +309,15 @@
  *
  * Types to primitives mapping:
  *
- * - COMO_P_SWITCH: COMO_P_NONE, COMO_P_OPT
- * - COMO_P_SINGLE: COMO_P_ONE
- * - COMO_P_MULTI: COMO_P_ONE, COMO_P_MANY
- * - COMO_P_OPT_single: COMO_P_ONE, COMO_P_OPT
- * - COMO_P_OPT_multi: COMO_P_ONE, COMO_P_MANY, COMO_P_OPT
- * - COMO_P_OPT_any: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT
- * - COMO_P_DEFAULT: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT, COMO_P_DEFAULT
- * - COMO_P_EXCLUSIVE: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT, COMO_P_MUTEX
- * - COMO_P_SILENT: COMO_P_NONE, COMO_P_OPT, COMO_P_HIDDEN
+ * - COMO_SWITCH: COMO_P_NONE, COMO_P_OPT
+ * - COMO_SINGLE: COMO_P_ONE
+ * - COMO_MULTI: COMO_P_ONE, COMO_P_MANY
+ * - COMO_OPT_SINGLE: COMO_P_ONE, COMO_P_OPT
+ * - COMO_OPT_MULTI: COMO_P_ONE, COMO_P_MANY, COMO_P_OPT
+ * - COMO_OPT_ANY: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT
+ * - COMO_DEFAULT: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT, COMO_P_DEFAULT
+ * - COMO_EXCLUSIVE: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT, COMO_P_MUTEX
+ * - COMO_SILENT: COMO_P_NONE, COMO_P_OPT, COMO_P_HIDDEN
  *
  * Primitives can be used in place of types if exotic options are
  * needed. Instead of a single type, ored combination of primitives
@@ -936,8 +936,8 @@ void como_init( int argc, char** argv, char* author, char* year );
  * @code
  *  como_spec_subcmd( "como_simple", "Programmer", "2013",
  *                     (como_opt_spec_t []) {
- *                       { opt_single, "file",  "-f", "File argument." },
- *                       { opt_switch, "debug", "-d", "Enable debugging." }
+ *                       { COMO_OPT_SINGLE, "file",  "-f", "File argument." },
+ *                       { COMO_OPT_SWITCH, "debug", "-d", "Enable debugging." }
  *                     }, 2 );
  * @endcode
  *
