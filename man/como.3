@@ -691,6 +691,110 @@ Options use all the 4 option fields:
 .if n \{\
 .RE
 .\}
+.SS "Option type primitives"
+.sp
+Como converts option types into option type primitives\&. Option types are not completely orthogonal, but primitives are\&.
+.sp
+Primitives:
+.PP
+COMO_P_NONE
+.RS 4
+No arguments (i\&.e\&. switch)\&.
+.RE
+.PP
+COMO_P_ONE
+.RS 4
+One argument\&.
+.RE
+.PP
+COMO_P_MANY
+.RS 4
+More than one argument\&.
+.RE
+.PP
+COMO_P_OPT
+.RS 4
+Optional argument(s)\&.
+.RE
+.PP
+COMO_P_DEFAULT
+.RS 4
+Default option\&.
+.RE
+.PP
+COMO_P_MUTEX
+.RS 4
+Mutually exclusive option\&.
+.RE
+.PP
+COMO_P_HIDDEN
+.RS 4
+Hidden option (no usage doc)\&.
+.RE
+.sp
+Types to primitives mapping:
+.PP
+COMO_P_SWITCH
+.RS 4
+COMO_P_NONE, COMO_P_OPT
+.RE
+.PP
+COMO_P_SINGLE
+.RS 4
+COMO_P_ONE
+.RE
+.PP
+COMO_P_MULTI
+.RS 4
+COMO_P_ONE, COMO_P_MANY
+.RE
+.PP
+COMO_P_OPT_single
+.RS 4
+COMO_P_ONE, COMO_P_OPT
+.RE
+.PP
+COMO_P_OPT_multi
+.RS 4
+COMO_P_ONE, COMO_P_MANY, COMO_P_OPT
+.RE
+.PP
+COMO_P_OPT_any
+.RS 4
+COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT
+.RE
+.PP
+COMO_P_DEFAULT
+.RS 4
+COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT, COMO_P_DEFAULT
+.RE
+.PP
+COMO_P_EXCLUSIVE
+.RS 4
+COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT, COMO_P_MUTEX
+.RE
+.PP
+COMO_P_SILENT
+.RS 4
+COMO_P_NONE, COMO_P_OPT, COMO_P_HIDDEN
+.RE
+.sp
+Primitives can be used in place of types if exotic options are needed\&. Instead of a single type, ored combination of primitives are given for option type\&. Order of primitives is not significant\&.
+.sp
+For example:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+  { COMO_P_NONE | COMO_P_HIDDEN | COMO_P_OPT,
+    "terminator", "\-", "The terminator\&." },
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Como does not check the primitive combinations, thus care and consideration should be applied\&.
 .SS "Option specification function configuration"
 .sp
 Option behavior can be controlled with several configuration options\&.
