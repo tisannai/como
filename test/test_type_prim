@@ -1,0 +1,29 @@
+como_type_prim
+como_type_prim --doc
+como_type_prim --doc -f
+como_type_prim --doc -f foo
+como_type_prim -f
+como_type_prim -f dii
+como_type_prim -f dii -d
+como_type_prim --file dii -d d1
+como_type_prim --file dii -d d1 d2
+como_type_prim --debug -f dii -d d1
+como_type_prim -f dii -d d1 --debug
+como_type_prim -f dii -d d1 --debug -m foo
+como_type_prim -f dii -d d1 --debug -m foo
+como_type_prim -f dii -d d1 --params foo=bar dii=duu
+como_type_prim -f dii -d d1 --params foo=bar dii=duu -t
+como_type_prim -f dii -d d1 --params foo=bar dii=duu -t duu dii
+como_type_prim -f dii -d d1 --params foo=bar dii=duu -t duu dii left over
+como_type_prim -f dii -d d1 -t --params foo=bar dii=duu left over
+como_type_prim -t duu dii --params foo=bar dii=duu -f dii -d d1 left over
+como_type_prim -f dii -d d1 -t duu dii --params foo=bar dii=duu - left over
+como_type_prim -f dii -d d1 -t duu dii - left over -- external arguments
+como_type_prim -f foo -- external arguments
+como_type_prim -f foo -t
+como_type_prim -q dii -f foo -t
+como_type_prim -d -q dii -f foo -t
+como_type_prim -f foo -d dir
+como_type_prim -f foo -d dir -h
+como_type_prim -h -f foo -d dir
+como_type_prim --doc doc1 doc2

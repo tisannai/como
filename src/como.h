@@ -292,6 +292,46 @@
  * @endcode
  *
  *
+ * ### Option type primitives
+ *
+ * Como converts option types into option type primitives. Option types
+ * are not completely orthogonal, but primitives are.
+ *
+ * Primitives:
+ *
+ * - COMO_P_NONE: No arguments (i.e. switch).
+ * - COMO_P_ONE: One argument.
+ * - COMO_P_MANY: More than one argument.
+ * - COMO_P_OPT: Optional argument(s).
+ * - COMO_P_DEFAULT: Default option.
+ * - COMO_P_MUTEX: Mutually exclusive option.
+ * - COMO_P_HIDDEN: Hidden option (no usage doc).
+ *
+ * Types to primitives mapping:
+ *
+ * - COMO_P_SWITCH: COMO_P_NONE, COMO_P_OPT
+ * - COMO_P_SINGLE: COMO_P_ONE
+ * - COMO_P_MULTI: COMO_P_ONE, COMO_P_MANY
+ * - COMO_P_OPT_single: COMO_P_ONE, COMO_P_OPT
+ * - COMO_P_OPT_multi: COMO_P_ONE, COMO_P_MANY, COMO_P_OPT
+ * - COMO_P_OPT_any: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT
+ * - COMO_P_DEFAULT: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT, COMO_P_DEFAULT
+ * - COMO_P_EXCLUSIVE: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT, COMO_P_MUTEX
+ * - COMO_P_SILENT: COMO_P_NONE, COMO_P_OPT, COMO_P_HIDDEN
+ *
+ * Primitives can be used in place of types if exotic options are
+ * needed. Instead of a single type, ored combination of primitives
+ * are given for option type. Order of primitives is not significant.
+ *
+ * For example:
+ * @code
+ *   { COMO_P_NONE | COMO_P_HIDDEN | COMO_P_OPT, "terminator", "-", "The terminator." },
+ * @endcode
+ *
+ * Como does not check the primitive combinations, thus care and
+ * consideration should be applied.
+ *
+ *
  * ### Option specification method configuration
  *
  * Option behavior can be controlled with several configuration options.
@@ -445,33 +485,55 @@ typedef enum bool_e { false = 0, true = 1 } bool_t;
 #endif
 
 
-/**
- * Option types.
- */
-typedef enum como_opt_type_e {
-  COMO_SWITCH,                  /**< Switch option. */
-  COMO_SINGLE,                  /**< Single value option. */
-  COMO_MULTI,                   /**< Multi value option. */
-  COMO_OPT_SINGLE,              /**< Optional single value option. */
-  COMO_OPT_MULTI,               /**< Optional multi value option. */
-  COMO_OPT_ANY,                 /**< 0, 1, or more value option. */
-  COMO_DEFAULT,                 /**< No id option. */
-  COMO_EXCLUSIVE,               /**< Disables the other options. */
-  COMO_SILENT,                  /**< Non-documented option. */
-  COMO_SUBCMD                   /**< Subcmd option. */
-} como_opt_type_t;
+/** Subcmd option. */
+#define COMO_SUBCMD (1<<0)
+/** Switch option. */
+#define COMO_SWITCH (1<<1)
+/** Single value option. */
+#define COMO_SINGLE (1<<2)
+/** Multi value option. */
+#define COMO_MULTI (1<<3)
+/** Optional single value option. */
+#define COMO_OPT_SINGLE (1<<4)
+/** Optional multi value option. */
+#define COMO_OPT_MULTI (1<<5)
+/** 0, 1, or more value option. */
+#define COMO_OPT_ANY (1<<6)
+/** No id option. */
+#define COMO_DEFAULT (1<<7)
+/** Disables the other options. */
+#define COMO_EXCLUSIVE (1<<8)
+/** Non-documented option. */
+#define COMO_SILENT (1<<9)
+
+/** No arguments (i.e. switch). */
+#define COMO_P_NONE (1<<10)
+/** One argument. */
+#define COMO_P_ONE  (1<<11)
+/** More than one argument. */
+#define COMO_P_MANY (1<<12)
+/** Optional argument(s). */
+#define COMO_P_OPT  (1<<13)
+/** Default option. */
+#define COMO_P_DEFAULT (1<<14)
+/** Mutually exclusive option. */
+#define COMO_P_MUTEX (1<<15)
+/** Hidden option (no usage doc). */
+#define COMO_P_HIDDEN (1<<16)
+
+
+/** Option type. */
+typedef uint64_t como_opt_type_t;
 
 
 /**
  * Option specification entry.
  */
 typedef struct como_opt_spec_s {
-  
   como_opt_type_t type;         /**< Option type. */
   const char* name;             /**< Option name (for reference). */
   const char* opt;              /**< Short switch ("-x" or NULL). Longopt is used if NULL. */
   const char* doc;              /**< Option documentation. */
-
 } como_opt_spec_t;
 
 

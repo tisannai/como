@@ -479,9 +479,8 @@ COMO_EXCLUSIVE::
     Option that does not coexist with other options.
 
 COMO_SILENT::
-    Option that does not coexist with other options and is not
-    displayed as an option in Usage Help display. In effect a
-    sub-option of :exclusive.
+    Switch Option that is not displayed as an option in Usage Help
+    display.
 
 
 Options use all the 4 option fields:

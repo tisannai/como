@@ -21,7 +21,7 @@
 const char* como_version = "0.1";
 como_cmd_t* como_cmd = NULL;
 como_cmd_t* como_main = NULL;
-int como_argc = NULL;
+int como_argc = 0;
 char** como_argv = NULL;
 
 
@@ -111,7 +111,6 @@ static como_opt_t* opt_create( como_opt_type_t type,
   como_opt_t* co;  
   
   co = mc_new( como_opt_t );
-  co->type = type;
 
   if ( type == COMO_DEFAULT )
     {
@@ -124,6 +123,23 @@ static como_opt_t* opt_create( como_opt_type_t type,
       co->name = name;
       co->shortopt = opt;
     }
+
+  /* Convert type definition to primitives. */
+  switch ( type )
+    {
+    case COMO_SWITCH:      type = COMO_P_NONE | COMO_P_OPT; break;
+    case COMO_SINGLE:      type = COMO_P_ONE; break;
+    case COMO_MULTI:       type = COMO_P_ONE | COMO_P_MANY; break;
+    case COMO_OPT_SINGLE:  type = COMO_P_ONE | COMO_P_OPT; break;
+    case COMO_OPT_MULTI:   type = COMO_P_ONE | COMO_P_MANY | COMO_P_OPT; break;
+    case COMO_OPT_ANY:     type = COMO_P_NONE | COMO_P_ONE | COMO_P_MANY | COMO_P_OPT; break;
+    case COMO_DEFAULT:     type = COMO_P_NONE | COMO_P_ONE | COMO_P_MANY | COMO_P_OPT | COMO_P_DEFAULT; break;
+    case COMO_EXCLUSIVE:   type = COMO_P_NONE | COMO_P_ONE | COMO_P_MANY | COMO_P_OPT | COMO_P_MUTEX; break;
+    case COMO_SILENT:      type = COMO_P_NONE | COMO_P_OPT | COMO_P_HIDDEN; break;
+    default: break;
+    }
+
+  co->type = type;
   co->doc = doc;
 
   co->longopt = mcc_str_concat( "--", co->name, NULL );
@@ -254,7 +270,7 @@ static como_opt_t* find_opt_by_type( como_cmd_t* cmd, como_opt_type_t type )
 
   while ( cmd->opts[ i ] )
     {
-      if ( cmd->opts[i]->type == type )
+      if ( cmd->opts[i]->type & type )
         {
           return cmd->opts[i];
         }
@@ -280,7 +296,7 @@ static como_opt_t* find_opt_by_name( como_cmd_t* cmd, char* name )
   if ( name == NULL )
     {
       /* Find default arg. */
-      return find_opt_by_type( cmd, COMO_DEFAULT );
+      return find_opt_by_type( cmd, COMO_P_DEFAULT );
     }
   else
     {
@@ -319,7 +335,7 @@ static como_opt_t* find_opt( como_cmd_t* cmd, char* str )
       /* Default option. */
       while ( cmd->opts[ i ] )
         {
-          if ( cmd->opts[i]->type == COMO_DEFAULT )
+          if ( cmd->opts[i]->type & COMO_P_DEFAULT )
             {
               return cmd->opts[i];
             }
@@ -402,92 +418,6 @@ static bool_t is_opt( void )
 
 
 /**
- * Does option take arguments?
- * 
- * @param opt Option to check.
- * 
- * @return True if takes.
- */
-static bool_t has_arg( como_opt_t* opt )
-{
-  switch ( opt->type )
-    {
-    case COMO_SINGLE:
-    case COMO_MULTI:
-    case COMO_OPT_SINGLE:
-    case COMO_OPT_MULTI:
-    case COMO_OPT_ANY:
-    case COMO_EXCLUSIVE:
-      return true;
-    default:
-      return false;
-    }
-}
-
-
-/**
- * Does option take multiple arguments?
- * 
- * @param opt Option to check.
- * 
- * @return True if takes.
- */
-static bool_t has_many( como_opt_t* opt )
-{
-  switch ( opt->type )
-    {
-    case COMO_MULTI:
-    case COMO_OPT_MULTI:
-    case COMO_OPT_ANY:
-    case COMO_EXCLUSIVE:
-      return true;
-    default:
-      return false;
-    }
-}
-
-
-/**
- * Is option compulsory (required)?
- * 
- * @param opt Option to check.
- * 
- * @return True if is.
- */
-static bool_t is_required( como_opt_t* opt )
-{
-  switch( opt->type )
-    {
-    case COMO_SINGLE:
-    case COMO_MULTI:
-      return true;
-    default:
-      return false;
-    }
-}
-
-
-/**
- * Is option exclusive, i.e. overrules other options?
- * 
- * @param opt Option to check.
- * 
- * @return True if is.
- */
-static bool_t is_exclusive( como_opt_t* opt )
-{
-  switch( opt->type )
-    {
-    case COMO_SILENT:
-    case COMO_EXCLUSIVE:
-      return true;
-    default:
-      return false;
-    }
-}
-
-
-/**
  * Is option of switch type? Note that default type is also consided a
  * switch.
  * 
@@ -495,17 +425,14 @@ static bool_t is_exclusive( como_opt_t* opt )
  * 
  * @return True if is.
  */
-static bool_t is_switch( como_opt_t* opt )
+static bool_t has_switch_style_doc( como_opt_t* opt )
 {
-  switch( opt->type )
-    {
-    case COMO_SWITCH:
-    case COMO_EXCLUSIVE:
-    case COMO_DEFAULT:
-      return true;
-    default:
-      return false;
-    }
+  if ( ( ( opt->type & COMO_P_NONE )
+         && !( opt->type & COMO_P_MANY ) )
+       || ( opt->type & COMO_P_DEFAULT ) )
+    return true;
+  else
+    return false;
 }
 
 
@@ -611,7 +538,7 @@ static bool_t check_missing( como_cmd_t* cmd, como_cmd_t** errcmd )
   while ( *opts )
     {
       o = *opts;
-      if ( is_exclusive( o ) && o->given )
+      if ( ( o->type & COMO_P_MUTEX ) && o->given )
         return ret;
       opts++;
     }
@@ -621,7 +548,7 @@ static bool_t check_missing( como_cmd_t* cmd, como_cmd_t** errcmd )
   while ( *opts )
     {
       o = *opts;
-      if ( is_required( o ) && !o->given )
+      if ( ( o->type != COMO_SUBCMD ) && !( o->type & COMO_P_OPT ) && !o->given )
         {
           como_error( "Option \"%s\" missing for \"%s\"...", como_opt_id( o ), cmd->longname );
           *errcmd = cmd;
@@ -709,7 +636,7 @@ static int parse_opts( como_cmd_t* cmd, como_cmd_t** subcmd )
               else
                 {
                   /* Default option. */
-                  o = find_opt_by_type( cmd, COMO_DEFAULT );
+                  o = find_opt_by_type( cmd, COMO_P_DEFAULT );
                   if ( !o )
                     {
                       como_error( "No default option specified to allow \"%s\"...", get_arg() );
@@ -724,7 +651,7 @@ static int parse_opts( como_cmd_t* cmd, como_cmd_t** subcmd )
                     }
                 }
             }
-          else if ( o && has_arg( o ) )
+          else if ( o && ( ( o->type & COMO_P_ONE ) || ( o->type & COMO_P_MANY ) ) )
             {
 
               /* Option with arguments. */
@@ -732,15 +659,14 @@ static int parse_opts( como_cmd_t* cmd, como_cmd_t** subcmd )
               next_arg();
 
               if ( ( !get_arg() || is_opt() )
-                   && o->type != COMO_OPT_ANY
-                   && o->type != COMO_EXCLUSIVE )
+                   && !( o->type & COMO_P_NONE ) )
                 {
                   como_error( "No argument given for \"%s\"...", como_opt_id( o ) );
                   break;
                 }
               else
                 {
-                  if ( has_many( o ) )
+                  if ( o->type & COMO_P_MANY )
                     {
                       /* Get all argument for multi-option. */
                       o->value = get_option_values( &( o->valuecnt ) );
@@ -786,7 +712,7 @@ static int parse_opts( como_cmd_t* cmd, como_cmd_t** subcmd )
 
               /* Default argument. */
 
-              o = find_opt_by_type( cmd, COMO_DEFAULT );
+              o = find_opt_by_type( cmd, COMO_P_DEFAULT );
 
               if ( !o )
                 {
@@ -878,23 +804,25 @@ static bool_t setup_and_parse( como_cmd_t* cmd, como_cmd_t** errcmd )
  */
 static void opt_cmdline( mcc_t* str, como_opt_t* o )
 {
-  if ( o->type == COMO_SILENT )
+  if ( o->type & COMO_P_HIDDEN )
     return;
 
-  if ( !is_required( o ) )
+  if ( o->type & COMO_P_OPT )
     mcc_printf( str, "[" );
 
   mcc_printf( str, "%s", como_opt_id( o ) );
 
-  if ( !is_switch( o ) )
-    mcc_printf( str, " <%s>", o->name );
+  if ( !has_switch_style_doc( o ) )
+    {
+      mcc_printf( str, " <%s>", o->name );
 
-  if ( o->type == COMO_MULTI || o->type == COMO_OPT_MULTI )
-    mcc_printf( str, "+" );
-  else if ( o->type == COMO_OPT_ANY )
-    mcc_printf( str, "*" );
+      if ( ( o->type & COMO_P_NONE ) && ( o->type & COMO_P_MANY ) )
+        mcc_printf( str, "*" );
+      else if ( o->type & COMO_P_MANY )
+        mcc_printf( str, "+" );
+    }
 
-  if ( !is_required( o ) )
+  if ( o->type & COMO_P_OPT )
     mcc_printf( str, "]" );
 }
 
@@ -912,7 +840,7 @@ static void opt_doc( mcc_t* str, como_opt_t* o, como_cmd_t* cmd )
   int s, e;
   bool_t first;
 
-  if ( o->type == COMO_SILENT )
+  if ( o->type & COMO_P_HIDDEN )
     return;
 
   sprintf( format, "  %%-%ds", cmd->conf->tab );
@@ -1195,7 +1123,7 @@ void como_cmd_usage( como_cmd_t* cmd )
   co = cmd->opts;
   while ( *co )
     {
-      if ( (*co)->type != COMO_SILENT )
+      if ( !( (*co)->type & COMO_P_HIDDEN ) )
         {
 
           has_visible = true;
@@ -1275,8 +1203,8 @@ void como_display_values( FILE* fh, como_opt_t* o )
   char** value;
   bool_t first = true;
    
-  if ( has_many( o )
-       || ( o->type == COMO_DEFAULT ) )
+  if ( ( o->type & COMO_P_MANY )
+       || ( o->type & COMO_P_DEFAULT ) )
     {
       fprintf( fh, "[" );
       value = o->value;

@@ -30,5 +30,6 @@ class ComoTest < Test::Unit::TestCase
     def test_options()       runTest( "options"       ); end
     def test_config()        runTest( "config"        ); end
     def test_subcmd()        runTest( "subcmd"        ); end
+    def test_type_prim()        runTest( "type_prim"        ); end
 
 end

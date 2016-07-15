@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([libcomo], [0.1], [tero.isannainen@gmail.com])
+AC_INIT([libcomo], [0.2], [tero.isannainen@gmail.com])
 AC_CONFIG_SRCDIR([src/como.c])
 AC_CONFIG_HEADERS([src/config.h])
 AM_INIT_AUTOMAKE
