@@ -11,4 +11,5 @@ task :clean_test do
     sh "rm -f test/como_options"
     sh "rm -f test/como_config"
     sh "rm -f test/como_subcmd"
+    sh "rm -f test/como_type_prim"
 end
