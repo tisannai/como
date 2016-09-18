@@ -2,12 +2,12 @@
 .\"     Title: como
 .\"    Author: [see the "AUTHOR" section]
 .\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
-.\"      Date: 07/16/2016
+.\"      Date: 09/18/2016
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "COMO" "3" "07/16/2016" "\ \&" "\ \&"
+.TH "COMO" "3" "09/18/2016" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -76,14 +76,14 @@ Como Lib 0\&.2 (2016\-07\-15)
 .RS 4
 .\}
 .nf
-  void como_conf_autohelp( bool_t val );
+  void como_conf_autohelp( mc_bool_t val );
   void como_conf_header( char* val );
   void como_conf_footer( char* val );
-  void como_conf_subcheck( bool_t val );
-  void como_conf_check_missing( bool_t val );
-  void como_conf_check_invalid( bool_t val );
+  void como_conf_subcheck( mc_bool_t val );
+  void como_conf_check_missing( mc_bool_t val );
+  void como_conf_check_invalid( mc_bool_t val );
   void como_conf_tab( int val );
-  void como_conf_help_exit( bool_t val );
+  void como_conf_help_exit( mc_bool_t val );
 .fi
 .if n \{\
 .RE
@@ -416,7 +416,7 @@ int main( int argc, char** argv )
   if ( como_cmd\->external )
     {
       char** value;
-      bool_t first = true;
+      mc_bool_t first = mc_true;
 
       printf( "External: [" );
 
@@ -427,7 +427,7 @@ int main( int argc, char** argv )
           if ( !first )
             printf( ", " );
           printf( "\e"%s\e"", *value );
-          first = false;
+          first = mc_false;
           value++;
         }
 

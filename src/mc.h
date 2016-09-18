@@ -37,15 +37,10 @@ extern const char* mc_version;
  * Basic data types.
  * ------------------------------------------------------------ */
 
-#ifndef MC_NO_BOOLDEF
-
-/** Boolean type. */
-typedef enum mc_bool_e { false = 0, true = 1 } mc_bool_t;
-
-#define MC_BOOLDEF
-
+#ifndef MC_BOOLEAN
+# define MC_BOOLEAN
+typedef enum mc_bool_e { mc_false = 0, mc_true = 1 } mc_bool_t;
 #endif
-
 
 /** Generic pointer. */
 typedef void* mc_p;

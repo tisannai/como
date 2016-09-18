@@ -454,14 +454,14 @@
  *
  * ### Configuration option setting functions
  *
- * - void como_conf_autohelp( bool_t val );
+ * - void como_conf_autohelp( mc_bool_t val );
  * - void como_conf_header( char* val );
  * - void como_conf_footer( char* val );
- * - void como_conf_subcheck( bool_t val );
- * - void como_conf_check_missing( bool_t val );
- * - void como_conf_check_invalid( bool_t val );
+ * - void como_conf_subcheck( mc_bool_t val );
+ * - void como_conf_check_missing( mc_bool_t val );
+ * - void como_conf_check_invalid( mc_bool_t val );
  * - void como_conf_tab( int val );
- * - void como_conf_help_exit( bool_t val );
+ * - void como_conf_help_exit( mc_bool_t val );
  *
  *
  * ### Generic functions
@@ -478,10 +478,9 @@ extern const char* como_version;
 
 
 /** Boolean type. */
-#ifdef MC_BOOLDEF
-typedef mc_bool_t bool_t;
-#else
-typedef enum bool_e { false = 0, true = 1 } bool_t;
+#ifndef MC_BOOLEAN
+# define MC_BOOLEAN
+typedef enum mc_bool_e { mc_false = 0, mc_true = 1 } mc_bool_t;
 #endif
 
 
@@ -565,7 +564,7 @@ typedef struct como_opt_s {
   char** value;
 
   /** True if option was set on CLI. */
-  bool_t given;
+  mc_bool_t given;
 
 } como_opt_t;
 
@@ -578,7 +577,7 @@ typedef struct como_config_s {
   
   /** Generate help option automatically.
    *  default: true */
-  bool_t autohelp;
+  mc_bool_t autohelp;
 
   /** Usage help header. User have to include all newlines.
    *  default: NULL */
@@ -590,15 +589,15 @@ typedef struct como_config_s {
 
   /** Check for missing sub-commands.
    *  default: true */
-  bool_t subcheck;
+  mc_bool_t subcheck;
 
   /** Check for missing options.
    *  default: true */
-  bool_t check_missing;
+  mc_bool_t check_missing;
 
   /** Check for invalid options.
    *  default: true */
-  bool_t check_invalid;
+  mc_bool_t check_invalid;
 
   /** Option mnemonic tab stop for option doc.
    *  default: 12 */
@@ -606,7 +605,7 @@ typedef struct como_config_s {
 
   /** Exit after usage help display.
    *  default: true */
-  bool_t help_exit;
+  mc_bool_t help_exit;
 
 } como_config_t;
 
@@ -850,7 +849,7 @@ const char* como_opt_id( como_opt_t* opt );
 
 
 /** Set autohelp configuration value. */
-void como_conf_autohelp( bool_t val );
+void como_conf_autohelp( mc_bool_t val );
 
 /** Set header configuration value. */
 void como_conf_header( char* val );
@@ -859,19 +858,19 @@ void como_conf_header( char* val );
 void como_conf_footer( char* val );
 
 /** Set subcheck configuration value. */
-void como_conf_subcheck( bool_t val );
+void como_conf_subcheck( mc_bool_t val );
 
 /** Set check_missing configuration value. */
-void como_conf_check_missing( bool_t val );
+void como_conf_check_missing( mc_bool_t val );
 
 /** Set check_invalid configuration value. */
-void como_conf_check_invalid( bool_t val );
+void como_conf_check_invalid( mc_bool_t val );
 
 /** Set tab configuration value. */
 void como_conf_tab( int val );
 
 /** Set help_exit configuration value. */
-void como_conf_help_exit( bool_t val );
+void como_conf_help_exit( mc_bool_t val );
 
 
 /*

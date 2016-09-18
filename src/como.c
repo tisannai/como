@@ -80,7 +80,7 @@ static como_cmd_t* cmd_create( void )
   cmd->author = NULL;
   cmd->year = NULL;
   cmd->givencnt = 0;
-  cmd->given = false;
+  cmd->given = mc_false;
   cmd->errors = 0;
   cmd->parent = NULL;
   cmd->subcmdcnt = 0;
@@ -146,7 +146,7 @@ static como_opt_t* opt_create( como_opt_type_t type,
 
   co->valuecnt = 0;
   co->value = NULL;
-  co->given = false;
+  co->given = mc_false;
 
   return co;
 }
@@ -164,14 +164,14 @@ static como_config_t* config_create( void )
   conf = mc_new( como_config_t );
 
   /* Setup config defaults. */
-  conf->autohelp = true;
+  conf->autohelp = mc_true;
   conf->header = NULL;
   conf->footer = NULL;
-  conf->subcheck = true;
-  conf->check_missing = true;
-  conf->check_invalid = true;
+  conf->subcheck = mc_true;
+  conf->check_missing = mc_true;
+  conf->check_invalid = mc_true;
   conf->tab = 12;
-  conf->help_exit = true;
+  conf->help_exit = mc_true;
 
   return conf;
 }
@@ -404,16 +404,16 @@ static void next_arg( void )
  * 
  * @return True if is.
  */
-static bool_t is_opt( void )
+static mc_bool_t is_opt( void )
 {
   char* s;
 
   s = get_arg();
 
   if ( s[0] == '-' )
-    return true;
+    return mc_true;
   else
-    return false;
+    return mc_false;
 }
 
 
@@ -425,14 +425,14 @@ static bool_t is_opt( void )
  * 
  * @return True if is.
  */
-static bool_t has_switch_style_doc( como_opt_t* opt )
+static mc_bool_t has_switch_style_doc( como_opt_t* opt )
 {
   if ( ( ( opt->type & COMO_P_NONE )
          && !( opt->type & COMO_P_MANY ) )
        || ( opt->type & COMO_P_DEFAULT ) )
-    return true;
+    return mc_true;
   else
-    return false;
+    return mc_false;
 }
 
 
@@ -523,15 +523,15 @@ static void add_value( char*** storage, char* item )
  *
  * @return True if no missing.
  */
-static bool_t check_missing( como_cmd_t* cmd, como_cmd_t** errcmd )
+static mc_bool_t check_missing( como_cmd_t* cmd, como_cmd_t** errcmd )
 {
   como_opt_t** opts, *o;
-  bool_t ret = true;
-  bool_t subcheck;
+  mc_bool_t ret = mc_true;
+  mc_bool_t subcheck;
   como_cmd_t* subcmd;
 
   if ( !cmd->conf->check_missing )
-    return true;
+    return mc_true;
 
   /* Check for any exclusive args first. Missing are not checked if has exclusives. */
   opts = cmd->opts;
@@ -552,7 +552,7 @@ static bool_t check_missing( como_cmd_t* cmd, como_cmd_t** errcmd )
         {
           como_error( "Option \"%s\" missing for \"%s\"...", como_opt_id( o ), cmd->longname );
           *errcmd = cmd;
-          return false;
+          return mc_false;
         }
       opts++;
     }
@@ -562,12 +562,12 @@ static bool_t check_missing( como_cmd_t* cmd, como_cmd_t** errcmd )
     {
       /* Has subcmds. */
       if ( cmd->conf->subcheck )
-        subcheck = true;
+        subcheck = mc_true;
       else
-        subcheck = false;
+        subcheck = mc_false;
     }
   else
-    subcheck = false;
+    subcheck = mc_false;
 
   subcmd = como_cmd_given_subcmd( cmd );
 
@@ -580,7 +580,7 @@ static bool_t check_missing( como_cmd_t* cmd, como_cmd_t** errcmd )
     {
       como_error( "Subcommand required for \"%s\"...", cmd->name );
       *errcmd = cmd;
-      return false;
+      return mc_false;
     }
 
   return ret;
@@ -687,7 +687,7 @@ static int parse_opts( como_cmd_t* cmd, como_cmd_t** subcmd )
                       next_arg();
                     }
 
-                  o->given = true;
+                  o->given = mc_true;
                   cmd->givencnt++;
 
                 }
@@ -696,7 +696,7 @@ static int parse_opts( como_cmd_t* cmd, como_cmd_t** subcmd )
             {
 
               /* Switch option. */
-              o->given = true;
+              o->given = mc_true;
               cmd->givencnt++;
               next_arg();
             }
@@ -725,7 +725,7 @@ static int parse_opts( como_cmd_t* cmd, como_cmd_t** subcmd )
                     cmd->givencnt++;
                   add_value( &( o->value ), get_arg() );
                   o->valuecnt++;
-                  o->given = true;
+                  o->given = mc_true;
                   next_arg();
                 }
             }
@@ -736,8 +736,8 @@ static int parse_opts( como_cmd_t* cmd, como_cmd_t** subcmd )
 
               /* Search for Subcmd. */
               c = find_cmd_by_name( get_arg() );
-              o->given = true;
-              c->given = true;
+              o->given = mc_true;
+              c->given = mc_true;
               next_arg();
               *subcmd = c;
               return 1;
@@ -766,7 +766,7 @@ static int parse_opts( como_cmd_t* cmd, como_cmd_t** subcmd )
  * 
  * @return True if no errors.
  */
-static bool_t setup_and_parse( como_cmd_t* cmd, como_cmd_t** errcmd )
+static mc_bool_t setup_and_parse( como_cmd_t* cmd, como_cmd_t** errcmd )
 {
   int ret;
   como_cmd_t* subcmd;
@@ -776,7 +776,7 @@ static bool_t setup_and_parse( como_cmd_t* cmd, como_cmd_t** errcmd )
   if ( ret == 0 )
     {
       /* done.*/
-      return true;
+      return mc_true;
     }
   else if ( ret == 1 )
     {
@@ -787,11 +787,11 @@ static bool_t setup_and_parse( como_cmd_t* cmd, como_cmd_t** errcmd )
     {
       /* error. */
       *errcmd = subcmd;
-      return false;
+      return mc_false;
     }
   else
     {
-      return true;
+      return mc_true;
     }
 }
 
@@ -838,7 +838,7 @@ static void opt_doc( mcc_t* str, como_opt_t* o, como_cmd_t* cmd )
 {
   char format[128];
   int s, e;
-  bool_t first;
+  mc_bool_t first;
 
   if ( o->type & COMO_P_HIDDEN )
     return;
@@ -848,7 +848,7 @@ static void opt_doc( mcc_t* str, como_opt_t* o, como_cmd_t* cmd )
   /* Reformat doc str, so that newlines start a new line and tab
    * chars align the start to previous line. */
 
-  first = true;
+  first = mc_true;
   s = 0;
   e = 0;
   for (;;)
@@ -864,7 +864,7 @@ static void opt_doc( mcc_t* str, como_opt_t* o, como_cmd_t* cmd )
               if ( o->doc[e] == 0 ) return;
               else e++;
 
-              first = false;
+              first = mc_false;
             }
           else
             {
@@ -924,7 +924,7 @@ static void quit( int status )
 void como_finish( void )
 {
   como_cmd_t* cmd;
-  bool_t success;
+  mc_bool_t success;
   como_cmd_t* errcmd;
 
   /* Parse all arguments and fill information to options. */
@@ -1048,21 +1048,21 @@ const char* como_opt_id( como_opt_t* opt )
  * Functions to set configuration items.
  */
 
-void como_conf_autohelp( bool_t val ) { como_cmd->conf->autohelp = val; }
+void como_conf_autohelp( mc_bool_t val ) { como_cmd->conf->autohelp = val; }
 
 void como_conf_header( char* val ) { como_cmd->conf->header = mc_strdup( val ); }
 
 void como_conf_footer( char* val ) { como_cmd->conf->footer = mc_strdup( val ); }
 
-void como_conf_subcheck( bool_t val ) { como_cmd->conf->subcheck = val; }
+void como_conf_subcheck( mc_bool_t val ) { como_cmd->conf->subcheck = val; }
 
-void como_conf_check_missing( bool_t val ) { como_cmd->conf->check_missing = val; }
+void como_conf_check_missing( mc_bool_t val ) { como_cmd->conf->check_missing = val; }
 
-void como_conf_check_invalid( bool_t val ) { como_cmd->conf->check_invalid = val; }
+void como_conf_check_invalid( mc_bool_t val ) { como_cmd->conf->check_invalid = val; }
 
 void como_conf_tab( int val ) { como_cmd->conf->tab = val; }
 
-void como_conf_help_exit( bool_t val ) { como_cmd->conf->help_exit = val; }
+void como_conf_help_exit( mc_bool_t val ) { como_cmd->conf->help_exit = val; }
 
 
 void como_error( const char* format, ... )
@@ -1088,7 +1088,7 @@ void como_cmd_usage( como_cmd_t* cmd )
 {
   mcc_t* str;
   como_opt_t** co;
-  bool_t main_cmd, has_visible;
+  mc_bool_t main_cmd, has_visible;
 
   str = mcc_new();
   str->resize = mcc_enlarge_resizer;
@@ -1104,10 +1104,10 @@ void como_cmd_usage( como_cmd_t* cmd )
 
   if ( !cmd->parent )
     /* Main command. */
-    main_cmd = true;
+    main_cmd = mc_true;
   else
     /* Subcmd. */
-    main_cmd = false;
+    main_cmd = mc_false;
 
 
   if ( main_cmd )
@@ -1119,14 +1119,14 @@ void como_cmd_usage( como_cmd_t* cmd )
     }
 
   /* Command line. */
-  has_visible = false;
+  has_visible = mc_false;
   co = cmd->opts;
   while ( *co )
     {
       if ( !( (*co)->type & COMO_P_HIDDEN ) )
         {
 
-          has_visible = true;
+          has_visible = mc_true;
 
           mcc_printf( str, " " );
           if ( (*co)->type != COMO_SUBCMD )
@@ -1201,7 +1201,7 @@ void como_cmd_usage( como_cmd_t* cmd )
 void como_display_values( FILE* fh, como_opt_t* o )
 {
   char** value;
-  bool_t first = true;
+  mc_bool_t first = mc_true;
    
   if ( ( o->type & COMO_P_MANY )
        || ( o->type & COMO_P_DEFAULT ) )
@@ -1213,7 +1213,7 @@ void como_display_values( FILE* fh, como_opt_t* o )
           if ( !first )
             fprintf( fh, ", " );
           fprintf( fh, "\"%s\"", *value );
-          first = false;
+          first = mc_false;
           value++;
         }
       fprintf( fh, "]" );

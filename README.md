@@ -53,8 +53,8 @@ A simple example program using Como:
 
 
 You have automatically:
-  - "-h" option defined with usage printout.
-  - Check that "-f" has one and only one argument.
+  - `-h` option defined with usage printout.
+  - Check that `-f` has one and only one argument.
   - Tests whether a particular option was given or not.
   - Long options based on option name.
   - Option values collected to an array.
@@ -63,36 +63,36 @@ You have automatically:
 
 # Building
 
-Como is built using autotools flow. Run "autogen.sh" to get all basic
+Como is built using autotools flow. Run `autogen.sh` to get all basic
 files setup.
 
 
 # Documentation
 
-Manual page for Como is included in the installation (see: man/).
+Manual page for Como is included in the installation (see: `man/`).
 
 The source code is documented in Doxygen format. Documentation can be
 generated with:
 
   doxygen .doxygen
 
-como.h related file will include the usage information (equal to man
+`como.h` related file will include the usage information (equal to man
 page).
 
 
 # Examples
 
-There are two simple examples in the "examples/" directory:
-como_simple.c and como_subcmd.c.
+There are two simple examples in the `examples/` directory:
+`como_simple.c` and `como_subcmd.c`.
 
-For a complete set of features, see the test programs in "test/"
-directory (*.c).
+For a complete set of features, see the test programs in `test/`
+directory (`*.c`).
 
 
 # Testing
 
-Testsuite is executed by running "rake test" and results are cleaned
-with "rake clean_test"
+Testsuite is executed by running `rake test` and results are cleaned
+with `rake clean_test`
 
 
 # License

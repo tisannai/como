@@ -53,9 +53,9 @@ mc_bool_t mc_memdiff( const mc_p d1, const mc_p d2, mc_size_t len )
     }
       
   if ( i == len )
-    return true;
+    return mc_true;
   else
-    return false;
+    return mc_false;
 }
 
 

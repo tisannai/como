@@ -41,14 +41,14 @@ Como Lib 0.2 (2016-07-15)
 
 *Configuration option setting functions*
 ....
-  void como_conf_autohelp( bool_t val );
+  void como_conf_autohelp( mc_bool_t val );
   void como_conf_header( char* val );
   void como_conf_footer( char* val );
-  void como_conf_subcheck( bool_t val );
-  void como_conf_check_missing( bool_t val );
-  void como_conf_check_invalid( bool_t val );
+  void como_conf_subcheck( mc_bool_t val );
+  void como_conf_check_missing( mc_bool_t val );
+  void como_conf_check_invalid( mc_bool_t val );
   void como_conf_tab( int val );
-  void como_conf_help_exit( bool_t val );
+  void como_conf_help_exit( mc_bool_t val );
 ....
 
 
@@ -328,7 +328,7 @@ int main( int argc, char** argv )
   if ( como_cmd->external )
     {
       char** value;
-      bool_t first = true;
+      mc_bool_t first = mc_true;
 
       printf( "External: [" );
 
@@ -339,7 +339,7 @@ int main( int argc, char** argv )
           if ( !first )
             printf( ", " );
           printf( "\"%s\"", *value );
-          first = false;
+          first = mc_false;
           value++;
         }
 

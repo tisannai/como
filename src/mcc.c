@@ -37,7 +37,7 @@ mc_bool_t mcc_default_resizer( mcc_p aa, mc_size_t newsize )
       while ( newsize > aa->size )
         aa->size = aa->size*2;
       mcc_resize_to( aa, aa->size );
-      return true;
+      return mc_true;
     }
   else if ( newsize < aa->size/2 )
     {
@@ -47,10 +47,10 @@ mc_bool_t mcc_default_resizer( mcc_p aa, mc_size_t newsize )
               ( aa->size / 2 ) > newsize )
         aa->size /= 2;
       mcc_resize_to( aa, aa->size );
-      return true;
+      return mc_true;
     }
   else
-    return false;
+    return mc_false;
 }
 
 
@@ -61,10 +61,10 @@ mc_bool_t mcc_enlarge_resizer( mcc_p aa, mc_size_t newsize )
       while ( newsize > aa->size )
         aa->size = aa->size*2;
       mcc_resize_to( aa, aa->size );
-      return true;
+      return mc_true;
     }
   else
-    return false;
+    return mc_false;
 }
 
 
@@ -265,11 +265,11 @@ mc_bool_t mcc_append_unique( mcc_p aa, char data )
   if ( !mcc_find( aa, data ) )
     {
       mcc_append( aa, data );
-      return true;
+      return mc_true;
     }
   else
     {
-      return false;
+      return mc_false;
     }
 }
 
@@ -305,9 +305,9 @@ mc_bool_t mcc_find( mcc_p aa, char data )
   idx = mcc_find_idx( aa, data );
 
   if ( idx != MCC_INVALID_INDEX )
-    return true;
+    return mc_true;
   else
-    return false;
+    return mc_false;
 }
 
 
@@ -346,7 +346,7 @@ char mcc_peek( mcc_p s )
 mc_bool_t mcc_empty( mcc_p aa )
 {
   if ( aa->used == 0 )
-    return true;
+    return mc_true;
   else
-    return false;
+    return mc_false;
 }
