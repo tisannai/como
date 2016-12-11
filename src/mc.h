@@ -8,6 +8,12 @@
  * @brief Mc library is small c-lib with basic memory allocation
  *   functions and definitions.
  *
+ * @mainpage
+ *
+ * Mc library includes fundamental function for convenient
+ * programming. It does not include any extra functionality so it can
+ * easily be linked also statically to programs.
+ *
  */
 
 
@@ -37,10 +43,11 @@ extern const char* mc_version;
  * Basic data types.
  * ------------------------------------------------------------ */
 
-#ifndef MC_BOOLEAN
-# define MC_BOOLEAN
+/** Boolean type. */
 typedef enum mc_bool_e { mc_false = 0, mc_true = 1 } mc_bool_t;
-#endif
+
+/** Void type. */
+typedef void mc_none;
 
 /** Generic pointer. */
 typedef void* mc_p;
@@ -57,8 +64,7 @@ typedef mc_int_t*  mc_int_p;    /**< Int ptr type. */
 typedef mc_char_t* mc_char_p;   /**< Char ptr type. */
 
 /** Nil pointer. */
-#define nil ((mc_p)0)
-
+#define mc_nil NULL
 
 
 /* ------------------------------------------------------------
@@ -66,13 +72,13 @@ typedef mc_char_t* mc_char_p;   /**< Char ptr type. */
  * ------------------------------------------------------------ */
 
 /** Forever loop. */
-#define loop for(;;)
+#define mc_loop for(;;)
 
 /** For n-times loop. Loop counter is 'i'. */
-#define for_n(n) for(int i=0; i < (n); i++)
+#define mc_for_n(n) for(int i=0; i < (n); i++)
 
 /** For n-times loop. Loop counter is 'x'. */
-#define for_n_x(n,x) for(int x=0; x < (n); x++)
+#define mc_for_n_x(n,x) for(int (x)=0; (x) < (n); (x)++)
 
 
 
@@ -113,6 +119,7 @@ typedef mc_char_t* mc_char_p;   /**< Char ptr type. */
 #define mc_struct_pp(name) typedef struct name ## _s name ## _t; \
   typedef name ## _t* name ## _p;                                \
   typedef name ## _t** name ## _pp;                              \
+  typedef name ## _t** name ## _pr;                              \
   struct name ## _s
 
 

@@ -6,8 +6,9 @@
  */
 
 
-#include <mc.h>
+#include "mc.h"
 #include "mcc.h"
+#include "mcs.h"
 
 
 mcc_p mcc_printf( mcc_p aa, const char* format, ... )

@@ -478,10 +478,10 @@ extern const char* como_version;
 
 
 /** Boolean type. */
-#ifndef MC_BOOLEAN
-# define MC_BOOLEAN
-typedef enum mc_bool_e { mc_false = 0, mc_true = 1 } mc_bool_t;
-#endif
+//#ifndef MC_BOOLEAN
+//# define MC_BOOLEAN
+//typedef enum mc_bool_e { mc_false = 0, mc_true = 1 } mc_bool_t;
+//#endif
 
 
 /** Subcmd option. */

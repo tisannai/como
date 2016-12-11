@@ -8,24 +8,31 @@
 #include "mc.h"
 
 
-/* autoc:version. */
+/** autoc:version. */
 const char* mc_version = "0.0.1";
 
+#define USE_CALLOC
 
 mc_p mc_xmalloc( mc_size_t size )
 {
   register mc_p mem;
 
   if ( size == 0 )
-    return nil;
+    return mc_nil;
 
+#ifdef USE_CALLOC
+  mem = calloc( size, 1 );
+#else
   mem = malloc( size );
+#endif
 
   if ( mem == 0 )
-    fputs(  "Virtual memory exhausted!", stderr );
+    fputs( "mc: Virtual memory exhausted!", stderr );
 
+#ifndef USE_CALLOC
   /* Init memory with 0. */
   memset( mem, 0, size );
+#endif
 
   return mem;
 }
@@ -62,7 +69,7 @@ mc_bool_t mc_memdiff( const mc_p d1, const mc_p d2, mc_size_t len )
 mc_p mc_free( mc_p item )
 {
   free( item );
-  return nil;
+  return mc_nil;
 }
 
 

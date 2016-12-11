@@ -7,6 +7,7 @@
 
 #include <mc.h>
 #include <mcc.h>
+#include <mcs.h>
 
 #include "como.h"
 
@@ -1341,7 +1342,7 @@ void como_cmd_end( como_cmd_t* cmd )
       mc_free( cmd->conf );
     }
 
-  for_n( cmd->optcnt )
+  mc_for_n( cmd->optcnt )
     {
       mc_free( cmd->opts[i]->longopt );
       mc_free( cmd->opts[i]->value );
