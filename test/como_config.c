@@ -25,10 +25,10 @@ int main( int argc, char** argv )
 
   como_conf_header( "\nAdditional heading info.\n\n" );
   como_conf_footer( "\nAdditional footer info.\n\n" );
-  como_conf_check_missing( false );
-  como_conf_check_invalid( false );
+  como_conf_check_missing( mc_false );
+  como_conf_check_invalid( mc_false );
   como_conf_tab( 10 );
-  como_conf_help_exit( false );
+  como_conf_help_exit( mc_false );
 
   como_finish();
 
@@ -53,7 +53,7 @@ int main( int argc, char** argv )
   if ( como_cmd->external )
     {
       char** value;
-      bool_t first = true;
+      mc_bool_t first = mc_true;
 
       printf( "External: [" );
 
@@ -64,7 +64,7 @@ int main( int argc, char** argv )
           if ( !first )
             printf( ", " );
           printf( "\"%s\"", *value );
-          first = false;
+          first = mc_false;
           value++;
         }
 

@@ -46,7 +46,7 @@ int main( int argc, char** argv )
   if ( como_cmd->external )
     {
       char** value;
-      bool_t first = true;
+      mc_bool_t first = mc_true;
 
       printf( "External: [" );
 
@@ -57,7 +57,7 @@ int main( int argc, char** argv )
           if ( !first )
             printf( ", " );
           printf( "\"%s\"", *value );
-          first = false;
+          first = mc_false;
           value++;
         }
 

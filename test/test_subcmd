@@ -28,3 +28,5 @@ como_subcmd commit -h -u user1 dii duu -h
 como_subcmd commit -u user1 dii duu -h
 
 como_subcmd -p foo commit foo -- external arguments
+
+como_subcmd foo

@@ -234,7 +234,7 @@ void mcc_assign_to( mcc_p aa, mc_size_t pos, char* data, mc_size_t len )
       mcc_resize( aa, ( aa->used + len - ow ) );
       aa->used += ( len - ow );
     }
-  
+
   /* Copy new data. */
   mc_memcpy( data, &( aa->data[ pos ] ), len * mcc_sizeof );
 
@@ -293,7 +293,7 @@ mc_size_t mcc_find_idx( mcc_p aa, char data )
       if ( aa->data[ i ] == data )
         return i;
     }
-  
+
   return MCC_INVALID_INDEX;
 }
 
@@ -330,7 +330,7 @@ void mcc_push( mcc_p s, char item )
 char mcc_pop( mcc_p s )
 {
   char d;
-  
+
   d = s->data[ s->used-1 ];
   mcc_delete_n_end( s, 1 );
   return d;

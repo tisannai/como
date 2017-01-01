@@ -717,7 +717,10 @@ static int parse_opts( como_cmd_t* cmd, como_cmd_t** subcmd )
 
               if ( !o )
                 {
-                  como_error( "No default option specified to allow \"%s\"...", get_arg() );
+                  if ( cmd->subcmds )
+                    como_error( "Unknown subcmd: \"%s\"...", get_arg() );
+                  else
+                    como_error( "No default option specified to allow \"%s\"...", get_arg() );
                   next_arg();
                 }
               else

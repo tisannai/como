@@ -58,7 +58,7 @@ mc_bool_t mc_memdiff( const mc_p d1, const mc_p d2, mc_size_t len )
     {
       c1++; c2++; i++;
     }
-      
+
   if ( i == len )
     return mc_true;
   else
