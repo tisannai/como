@@ -1306,6 +1306,7 @@ void como_spec_subcmd( char* name,
   if ( cmd->conf->autohelp )
     {
       opts[ i ] = opt_create( COMO_SILENT, "help", "-h", "Display usage info." );
+      opts[ i ]->type |= COMO_P_MUTEX;
       i++;
     }
 

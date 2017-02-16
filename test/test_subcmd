@@ -1,4 +1,5 @@
 como_subcmd
+como_subcmd -h
 como_subcmd -p passwd
 como_subcmd add
 como_subcmd add -f

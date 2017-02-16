@@ -16,6 +16,22 @@ como_subcmd error: Subcommand required for "como_subcmd"...
 
   Copyright (c) 2013 by Como Tester
 
+---- CMD: como_subcmd -h
+
+  como_subcmd [-p <password>] [-u <username>+] <<subcommand>>
+
+  Options:
+  -p          User password.
+  -u          Username(s).
+
+  Subcommands:
+  add         Add file to repo.
+  rm          Remove file from repo.
+  commit      Commit (pending) changes to repo.
+
+
+  Copyright (c) 2013 by Como Tester
+
 ---- CMD: como_subcmd -p passwd
 
 como_subcmd error: Subcommand required for "como_subcmd"...
