@@ -4,12 +4,13 @@
  * Test option types.
  */
 
-#include "../src/mc.h"
+#include <plinth.h>
 #include "../src/como.h"
 
 int main( int argc, char** argv )
 {
-  como_opt_t** opts, *o;
+  como_opt_p opts;
+  como_opt_t o;
   
   como_command( "como_options", "Como Tester", "2013",
                  { COMO_EXCLUSIVE, "doc", NULL, "Documentation for option\n\twith too much description\n\tfor one line." },
@@ -43,7 +44,7 @@ int main( int argc, char** argv )
   if ( como_cmd->external )
     {
       char** value;
-      mc_bool_t first = mc_true;
+      pl_bool_t first = pl_true;
 
       printf( "External: [" );
 
@@ -54,7 +55,7 @@ int main( int argc, char** argv )
           if ( !first )
             printf( ", " );
           printf( "\"%s\"", *value );
-          first = mc_false;
+          first = pl_false;
           value++;
         }
 

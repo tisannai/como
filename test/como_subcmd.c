@@ -4,17 +4,18 @@
  */
 
 
-#include "../src/mc.h"
+#include <plinth.h>
 #include "../src/como.h"
 
 
 /**
  * Hierarchically show results for options.
  */
-void display_options( como_cmd_t* cmd )
+void display_options( como_cmd_t cmd )
 {
-  como_cmd_t* subcmd;
-  como_opt_t** opts, *o;
+  como_cmd_t subcmd;
+  como_opt_p opts;
+  como_opt_t o;
 
   printf( "Options for: %s\n", cmd->name );
 
@@ -78,7 +79,7 @@ int main( int argc, char** argv )
   if ( como_cmd->external )
     {
       char** value;
-      mc_bool_t first = mc_true;
+      pl_bool_t first = pl_true;
 
       printf( "External: [" );
 
@@ -89,7 +90,7 @@ int main( int argc, char** argv )
           if ( !first )
             printf( ", " );
           printf( "\"%s\"", *value );
-          first = mc_false;
+          first = pl_false;
           value++;
         }
       

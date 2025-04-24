@@ -182,7 +182,10 @@ static como_opt_t opt_create( como_opt_type_t type,
 
     //     co->valuecnt = 0;
     //     plcm_use( &co->value, plsm_get( &como_mem, 16 * sizeof( char* ) ), 16 * sizeof( char* ) );
-    plcm_use_plsm( &co->value, &como_mem, 32 * sizeof( char* ) );
+    plcm_use_plsm( &co->value_store, &como_mem, 32 * sizeof( char* ) );
+    char* nullterm = NULL;
+    plcm_set( &co->value_store, co->value_store.used, &nullterm, sizeof( char* ) );
+    co->value = NULL;
     co->given = pl_false;
 
     return co;
@@ -374,7 +377,7 @@ static como_opt_t find_opt( como_cmd_t cmd, char* str )
             }
             i++;
         }
-    } else if ( strncmp( str, "--", 2 ) ) {
+    } else if ( strncmp( str, "--", 2 ) == 0 ) {
         /* Long option. */
         while ( cmd->opts[ i ] ) {
             if ( strcmp( cmd->opts[ i ]->longopt, str ) == 0 ) {
@@ -505,10 +508,10 @@ static pl_bool_t has_switch_style_doc( como_opt_t opt )
 // static void add_value( char*** storage, char* item )
 static void add_value( plcm_t storage, char* item )
 {
-    char* term = NULL;
-    plcm_resize( storage, storage->size + 1 );
+    char* nullterm = NULL;
+    plcm_resize( storage, storage->used + 1 );
     plcm_store( storage, &item, sizeof( char* ) );
-    plcm_set( storage, storage->used, term, sizeof( char* ) );
+    plcm_set( storage, storage->used, &nullterm, sizeof( char* ) );
     //     char** items;
     //
     //     if ( *storage == NULL ) {
@@ -652,10 +655,10 @@ static pl_i64_t parse_opts( como_cmd_t cmd, como_cmd_p subcmd )
                         como_error( "No default option specified to allow \"%s\"...", get_arg() );
                         break;
                     } else {
-                        if ( plcm_is_empty( &o->value ) ) {
+                        if ( !plcm_is_empty( &o->value_store ) ) {
                             cmd->givencnt++;
                         }
-                        add_value( &( o->value ), get_arg() );
+                        add_value( &( o->value_store ), get_arg() );
                         // o->valuecnt++;
                     }
                 }
@@ -676,7 +679,7 @@ static pl_i64_t parse_opts( como_cmd_t cmd, como_cmd_p subcmd )
                         /* Get all arguments for multi-option. */
                         while ( get_arg() && !is_opt() ) {
                             arg = get_arg();
-                            plcm_store( &( o->value ), &arg, sizeof( char* ) );
+                            plcm_store( &( o->value_store ), &arg, sizeof( char* ) );
                             next_arg();
                         }
                         // o->value = get_option_values( &( o->valuecnt ) );
@@ -687,7 +690,7 @@ static pl_i64_t parse_opts( como_cmd_t cmd, como_cmd_p subcmd )
                             break;
                         }
                         arg = get_arg();
-                        plcm_store( &( o->value ), &arg, sizeof( char* ) );
+                        plcm_store( &( o->value_store ), &arg, sizeof( char* ) );
                         next_arg();
                     }
 
@@ -713,17 +716,17 @@ static pl_i64_t parse_opts( como_cmd_t cmd, como_cmd_p subcmd )
                 o = find_opt_by_type( cmd, COMO_P_DEFAULT );
 
                 if ( !o ) {
-                    if ( plcm_is_empty( &cmd->subcmds ) ) {
+                    if ( !plcm_is_empty( &cmd->subcmds ) ) {
                         como_error( "Unknown subcmd: \"%s\"...", get_arg() );
                     } else {
                         como_error( "No default option specified to allow \"%s\"...", get_arg() );
                     }
                     next_arg();
                 } else {
-                    if ( plcm_is_empty( &o->value ) ) {
+                    if ( !plcm_is_empty( &o->value_store ) ) {
                         cmd->givencnt++;
                     }
-                    add_value( &( o->value ), get_arg() );
+                    add_value( &( o->value_store ), get_arg() );
                     // o->valuecnt++;
                     o->given = pl_true;
                     next_arg();
@@ -766,8 +769,22 @@ static pl_bool_t setup_and_parse( como_cmd_t cmd, como_cmd_p errcmd )
 {
     pl_i64_t   ret;
     como_cmd_t subcmd;
+    como_opt_t o;
 
     ret = parse_opts( cmd, &subcmd );
+
+    for ( pl_u64_t i = 0; i < cmd->optcnt; i++ ) {
+        /* Update "value" pointers to collected option values. */
+        o = cmd->opts[ i ];
+        // if ( ( o->type != COMO_SUBCMD ) && plcm_used( &o->value_store ) > 0 ) {
+        if ( o->type != COMO_SUBCMD ) {
+            if ( plcm_used( &o->value_store ) > 0 ) {
+                o->value = plcm_data( &o->value_store );
+            } else if ( ( o->type & COMO_P_MANY ) || ( o->type & COMO_P_DEFAULT ) ) {
+                o->value = plcm_data( &o->value_store );
+            }
+        }
+    }
 
     if ( ret == 0 ) {
         /* done.*/
@@ -966,7 +983,7 @@ char** como_value( char* name )
 {
     como_opt_t co;
     co = find_opt_by_name( como_cmd, name );
-    return plcm_data( &co->value );
+    return plcm_data( &co->value_store );
 }
 
 
@@ -992,7 +1009,7 @@ char** como_cmd_value( como_cmd_t cmd, char* name )
 {
     como_opt_t co;
     co = find_opt_by_name( cmd, name );
-    return plcm_data( &co->value );
+    return plcm_data( &co->value_store );
 }
 
 
@@ -1042,12 +1059,17 @@ como_cmd_t como_given_subcmd( void )
 
 como_cmd_t como_cmd_given_subcmd( como_cmd_t parent )
 {
-    como_cmd_t cmd;
+//     como_cmd_t cmd;
+    como_cmd_p cmd;
+
+    if ( plcm_is_empty( &parent->subcmds ) ) {
+        return NULL;
+    }
 
     cmd = plcm_data( &parent->subcmds );
     while ( (pl_t)cmd < plcm_end( &parent->subcmds ) ) {
-        if ( cmd->given ) {
-            return cmd;
+        if ( (*cmd)->given ) {
+            return *cmd;
         }
         cmd++;
     }
@@ -1260,7 +1282,7 @@ void como_display_values( FILE* fh, como_opt_t o )
 
     if ( ( o->type & COMO_P_MANY ) || ( o->type & COMO_P_DEFAULT ) ) {
         fprintf( fh, "[" );
-        value = plcm_data( &o->value );
+        value = plcm_data( &o->value_store );
         while ( *value ) {
             if ( !first ) {
                 fprintf( fh, ", " );
@@ -1271,7 +1293,8 @@ void como_display_values( FILE* fh, como_opt_t o )
         }
         fprintf( fh, "]" );
     } else {
-        fprintf( fh, "%s", *( (char**)plcm_data( &o->value ) ) );
+        value = plcm_data( &o->value_store );
+        fprintf( fh, "%s", *value );
     }
 }
 
@@ -1407,7 +1430,7 @@ void como_cmd_end( como_cmd_t cmd )
 //     }
     
     for ( pl_u64_t i = 0; i < cmd->optcnt; i++ ) {
-        plcm_del( &cmd->opts[ i ]->value );
+        plcm_del( &cmd->opts[ i ]->value_store );
     }
 
     //     if ( cmd->subcmds ) {

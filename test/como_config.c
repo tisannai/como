@@ -4,12 +4,15 @@
  * Test option types.
  */
 
-#include "../src/mc.h"
+// #include "../src/mc.h"
+#include <plinth.h>
 #include "../src/como.h"
 
 int main( int argc, char** argv )
 {
-  como_opt_t** opts, *o;
+//   como_opt_t** opts, *o;
+  como_opt_p opts;
+  como_opt_t o;
   
   como_maincmd( "como_config", "Como Tester", "2013",
                { COMO_EXCLUSIVE, "doc", NULL, "Documentation." },
@@ -25,10 +28,10 @@ int main( int argc, char** argv )
 
   como_conf_header( "\nAdditional heading info.\n\n" );
   como_conf_footer( "\nAdditional footer info.\n\n" );
-  como_conf_check_missing( mc_false );
-  como_conf_check_invalid( mc_false );
+  como_conf_check_missing( pl_false );
+  como_conf_check_invalid( pl_false );
   como_conf_tab( 10 );
-  como_conf_help_exit( mc_false );
+  como_conf_help_exit( pl_false );
 
   como_finish();
 
@@ -53,7 +56,7 @@ int main( int argc, char** argv )
   if ( como_cmd->external )
     {
       char** value;
-      mc_bool_t first = mc_true;
+      pl_bool_t first = pl_true;
 
       printf( "External: [" );
 
@@ -64,7 +67,7 @@ int main( int argc, char** argv )
           if ( !first )
             printf( ", " );
           printf( "\"%s\"", *value );
-          first = mc_false;
+          first = pl_false;
           value++;
         }
 

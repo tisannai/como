@@ -8,7 +8,7 @@ def runTest( test )
     rf = "result/#{test}.txt"
     gf = "golden/#{test}.txt"
 
-    system( "gcc -Wall -std=gnu99 -g como_#{test}.c ../src/.libs/libcomo.a -o como_#{test}" )
+    system( "gcc -Wall -g como_#{test}.c ../src/como.c -lplinth -o como_#{test}" )
 
     system( "rm -f #{rf}; touch #{rf}" )
 

@@ -91,7 +91,8 @@ pl_struct( como_opt )
     //   plsr_t value;
 
     /** Array of given option values. */
-    plcm_s value;
+    plcm_s value_store;
+    char** value;
 
     /** True if option was set on CLI. */
     pl_bool_t given;
