@@ -10,7 +10,7 @@ como - Command Line Option Parser Library
 
 == VERSION
 
-Como Lib 0.2 (2016-07-15)
+Como Lib 0.3 (2025-04-24)
 
 
 == INTERFACE
@@ -27,28 +27,28 @@ Como Lib 0.2 (2016-07-15)
 
 *Option queries*
 ....
-  como_opt_t* como_opt( char* name );
-  char**      como_value( char* name );
-  como_opt_t* como_given( char* name );
-  como_opt_t* como_cmd_opt( como_cmd_t* cmd, char* name );
-  char**      como_cmd_value( como_cmd_t* cmd, char* name );
-  como_opt_t* como_cmd_given( como_cmd_t* cmd, char* name );
-  como_cmd_t* como_cmd_subcmd( como_cmd_t*, char* name );
-  como_cmd_t* como_given_subcmd( void );
-  como_cmd_t* como_cmd_given_subcmd( como_cmd_t* parent );
+  como_opt_t como_opt( char* name );
+  char**     como_value( char* name );
+  como_opt_t como_given( char* name );
+  como_opt_t como_cmd_opt( como_cmd_t cmd, char* name );
+  char**     como_cmd_value( como_cmd_t cmd, char* name );
+  como_opt_t como_cmd_given( como_cmd_t cmd, char* name );
+  como_cmd_t como_cmd_subcmd( como_cmd_t, char* name );
+  como_cmd_t como_given_subcmd( void );
+  como_cmd_t como_cmd_given_subcmd( como_cmd_t parent );
 ....
 
 
 *Configuration option setting functions*
 ....
-  void como_conf_autohelp( mc_bool_t val );
+  void como_conf_autohelp( pl_bool_t val );
   void como_conf_header( char* val );
   void como_conf_footer( char* val );
-  void como_conf_subcheck( mc_bool_t val );
-  void como_conf_check_missing( mc_bool_t val );
-  void como_conf_check_invalid( mc_bool_t val );
+  void como_conf_subcheck( pl_bool_t val );
+  void como_conf_check_missing( pl_bool_t val );
+  void como_conf_check_invalid( pl_bool_t val );
   void como_conf_tab( int val );
-  void como_conf_help_exit( mc_bool_t val );
+  void como_conf_help_exit( pl_bool_t val );
 ....
 
 
@@ -56,7 +56,7 @@ Como Lib 0.2 (2016-07-15)
 ....
   void como_error( const char* format, ... );
   void como_usage( void );
-  void como_cmd_usage( como_cmd_t* cmd );
+  void como_cmd_usage( como_cmd_t cmd );
 ....
 
 
@@ -90,7 +90,7 @@ typical usage.
 
 int main( int argc, char** argv )
 {
-  como_opt_t* opt;
+  como_opt_t opt;
 
   /* Specify program and all the options. Parsing and help is managed
      automatically. */
@@ -272,10 +272,11 @@ can have their own command line switches and options.
 /**
  * Hierarchically show results for options.
  */
-void display_options( como_cmd_t* cmd )
+void display_options( como_cmd_t cmd )
 {
-  como_cmd_t* subcmd;
-  como_opt_t** opts, *o;
+  como_cmd_t subcmd;
+  como_opt_p opts;
+  como_opt_t o;
 
   printf( "Options for: %s\n", cmd->name );
 
@@ -328,7 +329,7 @@ int main( int argc, char** argv )
   if ( como_cmd->external )
     {
       char** value;
-      mc_bool_t first = mc_true;
+      pl_bool_t first = pl_true;
 
       printf( "External: [" );
 
@@ -339,7 +340,7 @@ int main( int argc, char** argv )
           if ( !first )
             printf( ", " );
           printf( "\"%s\"", *value );
-          first = mc_false;
+          first = pl_false;
           value++;
         }
 
@@ -383,7 +384,7 @@ or by name
 The queries have too versions: "como_<query>" and
 "como_cmd_<query>". For "como_<query>" it is assumed that the query
 is targeted to como_main. For "como_cmd_<query>" the first argument
-is always a "como_cmd_t*" which defines the scope of query.
+is always a "como_cmd_t" which defines the scope of query.
 
 
 === Subcommand example executions

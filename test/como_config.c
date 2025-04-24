@@ -4,13 +4,11 @@
  * Test option types.
  */
 
-// #include "../src/mc.h"
 #include <plinth.h>
 #include "../src/como.h"
 
 int main( int argc, char** argv )
 {
-//   como_opt_t** opts, *o;
   como_opt_p opts;
   como_opt_t o;
   

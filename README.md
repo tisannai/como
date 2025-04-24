@@ -15,7 +15,7 @@ A simple example program using Como:
 
     int main( int argc, char** argv )
     {
-      como_opt_t* opt;
+      como_opt_t opt;
 
       /* Specify program and all the options. Parsing and help is managed
          automatically. */
@@ -101,4 +101,4 @@ See: COPYING
 
 
 
-Como library by Tero Isannainen, (c) Copyright 2015.
+Como library by Tero Isannainen, (c) Copyright 2015, 2025.
