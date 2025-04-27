@@ -74,7 +74,7 @@ static como_cmd_t cmd_create( void )
 {
     como_cmd_t cmd;
 
-    cmd = plcm_get_ref( &cmd_list, sizeof( como_cmd_s ) );
+    cmd = plcm_get_ref_with_type( &cmd_list, como_cmd_s );
     cmd->name = NULL;
     cmd->longname = NULL;
     cmd->author = NULL;
@@ -158,7 +158,7 @@ static como_opt_t opt_create( como_opt_type_t type,
     co->longopt = plam_format( &como_mem, "--%s", co->name );
 
     plcm_use_plam( &co->value_store, &como_mem, 32 * sizeof( char* ) );
-    plcm_terminate( &co->value_store, sizeof( char* ) );
+    plcm_terminate_with_type( &co->value_store, char* );
     co->value = NULL;
     co->given = pl_false;
 
@@ -176,7 +176,8 @@ static como_config_t config_create( void )
     como_config_t conf;
 
     // conf = pl_alloc_memory( sizeof( como_config_s ) );
-    conf = plam_get( &como_mem, sizeof( como_config_s ) );
+    // conf = plam_get( &como_mem, sizeof( como_config_s ) );
+    conf = plam_get_with_type( &como_mem, como_config_s );
 
     /* Setup config defaults. */
     conf->autohelp = pl_true;
@@ -250,7 +251,7 @@ static como_cmd_t find_cmd_by_name( char* name )
  */
 static void add_subcmd( como_cmd_t parent, como_cmd_t subcmd )
 {
-    plcm_store( &parent->subcmds, &subcmd, sizeof( como_cmd_t ) );
+    plcm_store_with_type( &parent->subcmds, &subcmd, como_cmd_t );
 }
 
 
@@ -425,8 +426,8 @@ static pl_bool_t has_switch_style_doc( como_opt_t opt )
 static void add_value( plcm_t storage, char* item )
 {
     plcm_resize( storage, storage->used + 1 );
-    plcm_store( storage, &item, sizeof( char* ) );
-    plcm_terminate( storage, sizeof( char* ) );
+    plcm_store_with_type( storage, &item, char* );
+    plcm_terminate_with_type( storage, char* );
 }
 
 
@@ -569,7 +570,7 @@ static pl_i64_t parse_opts( como_cmd_t cmd, como_cmd_p subcmd )
                         /* Get all arguments for multi-option. */
                         while ( get_arg() && !is_opt() ) {
                             arg = get_arg();
-                            plcm_store( &( o->value_store ), &arg, sizeof( char* ) );
+                            plcm_store_with_type( &( o->value_store ), &arg, char* );
                             next_arg();
                         }
                     } else {
@@ -579,7 +580,7 @@ static pl_i64_t parse_opts( como_cmd_t cmd, como_cmd_p subcmd )
                             break;
                         }
                         arg = get_arg();
-                        plcm_store( &( o->value_store ), &arg, sizeof( char* ) );
+                        plcm_store_with_type( &( o->value_store ), &arg, char* );
                         next_arg();
                     }
 
