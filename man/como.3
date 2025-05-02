@@ -1,13 +1,13 @@
 '\" t
 .\"     Title: como
 .\"    Author: [see the "AUTHOR" section]
-.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
-.\"      Date: 09/18/2016
+.\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
+.\"      Date: 04/27/2025
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "COMO" "3" "09/18/2016" "\ \&" "\ \&"
+.TH "COMO" "3" "04/27/2025" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -31,7 +31,7 @@
 como \- Command Line Option Parser Library
 .SH "VERSION"
 .sp
-Como Lib 0\&.2 (2016\-07\-15)
+Como Lib 0\&.3 (2025\-04\-24)
 .SH "INTERFACE"
 .sp
 \fBOption specification\fR
@@ -56,15 +56,15 @@ Como Lib 0\&.2 (2016\-07\-15)
 .RS 4
 .\}
 .nf
-  como_opt_t* como_opt( char* name );
-  char**      como_value( char* name );
-  como_opt_t* como_given( char* name );
-  como_opt_t* como_cmd_opt( como_cmd_t* cmd, char* name );
-  char**      como_cmd_value( como_cmd_t* cmd, char* name );
-  como_opt_t* como_cmd_given( como_cmd_t* cmd, char* name );
-  como_cmd_t* como_cmd_subcmd( como_cmd_t*, char* name );
-  como_cmd_t* como_given_subcmd( void );
-  como_cmd_t* como_cmd_given_subcmd( como_cmd_t* parent );
+  como_opt_t como_opt( char* name );
+  char**     como_value( char* name );
+  como_opt_t como_given( char* name );
+  como_opt_t como_cmd_opt( como_cmd_t cmd, char* name );
+  char**     como_cmd_value( como_cmd_t cmd, char* name );
+  como_opt_t como_cmd_given( como_cmd_t cmd, char* name );
+  como_cmd_t como_cmd_subcmd( como_cmd_t, char* name );
+  como_cmd_t como_given_subcmd( void );
+  como_cmd_t como_cmd_given_subcmd( como_cmd_t parent );
 .fi
 .if n \{\
 .RE
@@ -76,14 +76,14 @@ Como Lib 0\&.2 (2016\-07\-15)
 .RS 4
 .\}
 .nf
-  void como_conf_autohelp( mc_bool_t val );
+  void como_conf_autohelp( pl_bool_t val );
   void como_conf_header( char* val );
   void como_conf_footer( char* val );
-  void como_conf_subcheck( mc_bool_t val );
-  void como_conf_check_missing( mc_bool_t val );
-  void como_conf_check_invalid( mc_bool_t val );
+  void como_conf_subcheck( pl_bool_t val );
+  void como_conf_check_missing( pl_bool_t val );
+  void como_conf_check_invalid( pl_bool_t val );
   void como_conf_tab( int val );
-  void como_conf_help_exit( mc_bool_t val );
+  void como_conf_help_exit( pl_bool_t val );
 .fi
 .if n \{\
 .RE
@@ -97,7 +97,7 @@ Como Lib 0\&.2 (2016\-07\-15)
 .nf
   void como_error( const char* format, \&.\&.\&. );
   void como_usage( void );
-  void como_cmd_usage( como_cmd_t* cmd );
+  void como_cmd_usage( como_cmd_t cmd );
 .fi
 .if n \{\
 .RE
@@ -122,7 +122,7 @@ Below is a small example program ("como_simple") that demonstrates typical usage
 
 int main( int argc, char** argv )
 {
-  como_opt_t* opt;
+  como_opt_t opt;
 
   /* Specify program and all the options\&. Parsing and help is managed
      automatically\&. */
@@ -360,10 +360,11 @@ Subcmd example includes a program which has subcommands\&. Subcommands can have 
 /**
  * Hierarchically show results for options\&.
  */
-void display_options( como_cmd_t* cmd )
+void display_options( como_cmd_t cmd )
 {
-  como_cmd_t* subcmd;
-  como_opt_t** opts, *o;
+  como_cmd_t subcmd;
+  como_opt_p opts;
+  como_opt_t o;
 
   printf( "Options for: %s\en", cmd\->name );
 
@@ -416,7 +417,7 @@ int main( int argc, char** argv )
   if ( como_cmd\->external )
     {
       char** value;
-      mc_bool_t first = mc_true;
+      pl_bool_t first = pl_true;
 
       printf( "External: [" );
 
@@ -427,7 +428,7 @@ int main( int argc, char** argv )
           if ( !first )
             printf( ", " );
           printf( "\e"%s\e"", *value );
-          first = mc_false;
+          first = pl_false;
           value++;
         }
 
@@ -483,7 +484,7 @@ or by name
 .RE
 .\}
 .sp
-The queries have too versions: "como_<query>" and "como_cmd_<query>"\&. For "como_<query>" it is assumed that the query is targeted to como_main\&. For "como_cmd_<query>" the first argument is always a "como_cmd_t*" which defines the scope of query\&.
+The queries have too versions: "como_<query>" and "como_cmd_<query>"\&. For "como_<query>" it is assumed that the query is targeted to como_main\&. For "como_cmd_<query>" the first argument is always a "como_cmd_t" which defines the scope of query\&.
 .SS "Subcommand example executions"
 .sp
 Normal behavior would be achieved by executing:

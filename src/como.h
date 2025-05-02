@@ -558,6 +558,7 @@ pl_struct( como_opt )
     /** Array of given option values. */
     plcm_s value_store; /* Only for internal use. */
     char** value;
+    pl_i64_t valuecnt;
 
     /** True if option was set on CLI. */
     pl_bool_t given;
