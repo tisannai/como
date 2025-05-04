@@ -52,7 +52,6 @@ static como_config_t como_conf = NULL;
 
 /**
  * Report fatal (internal) error.
- *
  */
 void como_fatal( const char* format, ... )
 {
@@ -362,7 +361,6 @@ static char* get_arg( void )
 
 /**
  * Advance command line argument index.
- *
  */
 static void next_arg( void )
 {
@@ -372,7 +370,6 @@ static void next_arg( void )
 
 /**
  * Is current command line argument an option?
- *
  *
  * @return True if is.
  */

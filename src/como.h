@@ -408,7 +408,7 @@
  *
  * ### Program external options
  *
- * If the user gives the "\--" option (double-dash), the arguments after
+ * If the user gives the "--" option (double-dash), the arguments after
  * that option is stored as an array to "como_external".
  *
  *
