@@ -16,7 +16,6 @@
  * Como external vars.
  */
 
-/* autoc:version */
 const char* como_version = "0.3";
 como_cmd_t  como_cmd = NULL;
 como_cmd_t  como_main = NULL;
@@ -155,7 +154,7 @@ static como_opt_t opt_create( como_opt_type_t type,
     co->type = type;
     co->doc = doc;
 
-    co->longopt = plam_format( &como_mem, "--%s", co->name );
+    co->longopt = plam_format_string( &como_mem, "--%s", co->name );
 
     plcm_use_plam( &co->value_store, &como_mem, 32 * sizeof( char* ) );
     plcm_terminate_ptr( &co->value_store );
@@ -207,8 +206,8 @@ static como_config_t config_dup( como_config_t src )
 
     /* Setup config defaults. */
     conf->autohelp = src->autohelp;
-    conf->header = plam_strdup( &como_mem, src->header );
-    conf->footer = plam_strdup( &como_mem, src->footer );
+    conf->header = plam_store_string( &como_mem, src->header );
+    conf->footer = plam_store_string( &como_mem, src->footer );
     conf->subcheck = src->subcheck;
     conf->check_missing = src->check_missing;
     conf->check_invalid = src->check_invalid;
@@ -699,23 +698,23 @@ static void opt_cmdline( plcm_t str, como_opt_t o )
     }
 
     if ( o->type & COMO_P_OPT ) {
-        plss_append( str, plsr_from_c( "[" ) );
+        plss_append( str, plsr_from_string( "[" ) );
     }
 
-    plss_format( str, "%s", como_opt_id( o ) );
+    plss_format_string( str, "%s", como_opt_id( o ) );
 
     if ( !has_switch_style_doc( o ) ) {
-        plss_format( str, " <%s>", o->name );
+        plss_format_string( str, " <%s>", o->name );
 
         if ( ( o->type & COMO_P_NONE ) && ( o->type & COMO_P_MANY ) ) {
-            plss_append( str, plsr_from_c( "*" ) );
+            plss_append( str, plsr_from_string( "*" ) );
         } else if ( o->type & COMO_P_MANY ) {
-            plss_append( str, plsr_from_c( "+" ) );
+            plss_append( str, plsr_from_string( "+" ) );
         }
     }
 
     if ( o->type & COMO_P_OPT ) {
-        plss_append( str, plsr_from_c( "]" ) );
+        plss_append( str, plsr_from_string( "]" ) );
     }
 }
 
@@ -738,7 +737,7 @@ static void opt_doc( plcm_t str, como_opt_t o, como_cmd_t cmd )
     }
 
     plss_use( format_str, 128 );
-    plss_format( &format_str, "  %%-%ds", cmd->conf->tab );
+    plss_format_string( &format_str, "  %%-%ds", cmd->conf->tab );
     format = plss_string( &format_str );
 
     /* Reformat doc str, so that newlines start a new line and tab
@@ -750,9 +749,9 @@ static void opt_doc( plcm_t str, como_opt_t o, como_cmd_t cmd )
     for ( ;; ) {
         if ( o->doc[ e ] == '\n' || o->doc[ e ] == 0 ) {
             if ( first ) {
-                plss_format( str, format, como_opt_id( o ) );
-                plss_append( str, plsr_from_c_length( (char*)&( o->doc[ s ] ), ( e - s ) ) );
-                plss_append_ch( str, '\n' );
+                plss_format_string( str, format, como_opt_id( o ) );
+                plss_append( str, plsr_from_string_and_length( (char*)&( o->doc[ s ] ), ( e - s ) ) );
+                plss_append_char( str, '\n' );
 
                 if ( o->doc[ e ] == 0 ) {
                     return;
@@ -764,10 +763,10 @@ static void opt_doc( plcm_t str, como_opt_t o, como_cmd_t cmd )
             } else {
                 if ( o->doc[ s ] == '\t' ) {
                     s++;
-                    plss_format( str, format, "" );
+                    plss_format_string( str, format, "" );
                 }
-                plss_append( str, plsr_from_c_length( (char*)&( o->doc[ s ] ), ( e - s ) ) );
-                plss_append_ch( str, '\n' );
+                plss_append( str, plsr_from_string_and_length( (char*)&( o->doc[ s ] ), ( e - s ) ) );
+                plss_append_char( str, '\n' );
 
                 if ( o->doc[ e ] == 0 ) {
                     return;
@@ -962,12 +961,12 @@ void como_conf_autohelp( pl_bool_t val )
 
 void como_conf_header( char* val )
 {
-    como_cmd->conf->header = plam_strdup( &como_mem, val );
+    como_cmd->conf->header = plam_store_string( &como_mem, val );
 }
 
 void como_conf_footer( char* val )
 {
-    como_cmd->conf->footer = plam_strdup( &como_mem, val );
+    como_cmd->conf->footer = plam_store_string( &como_mem, val );
 }
 
 void como_conf_subcheck( pl_bool_t val )
@@ -1028,9 +1027,9 @@ void como_cmd_usage( como_cmd_t cmd )
     str = &str_handle;
 
     if ( cmd->conf->header ) {
-        plss_format( str, "%s", cmd->conf->header );
+        plss_format_string( str, "%s", cmd->conf->header );
     } else {
-        plss_append_ch( str, '\n' );
+        plss_append_char( str, '\n' );
     }
 
     if ( !cmd->parent ) {
@@ -1043,10 +1042,10 @@ void como_cmd_usage( como_cmd_t cmd )
 
 
     if ( main_cmd ) {
-        plss_format( str, "  %s", cmd->name );
+        plss_format_string( str, "  %s", cmd->name );
     } else {
-        plss_format( str, "  Subcommand \"%s\" usage:\n    ", cmd->name );
-        plss_format( str, "%s", cmd->longname );
+        plss_format_string( str, "  Subcommand \"%s\" usage:\n    ", cmd->name );
+        plss_format_string( str, "%s", cmd->longname );
     }
 
     /* Command line. */
@@ -1057,23 +1056,23 @@ void como_cmd_usage( como_cmd_t cmd )
 
             has_visible = pl_true;
 
-            plss_append_ch( str, ' ' );
+            plss_append_char( str, ' ' );
             if ( ( *co )->type != COMO_SUBCMD ) {
                 opt_cmdline( str, *co );
             } else {
-                plss_append_c( str, "<<subcommand>>" );
+                plss_append_string( str, "<<subcommand>>" );
                 break;
             }
         }
         co++;
     }
 
-    plss_append_c( str, "\n\n" );
+    plss_append_string( str, "\n\n" );
 
     /* If cmd has subcmds, use categories: Options, Subcommands. */
 
     if ( !plcm_is_empty( &cmd->subcmds ) && has_visible ) {
-        plss_append_c( str, "  Options:\n" );
+        plss_append_string( str, "  Options:\n" );
     }
 
     /* Option documents. */
@@ -1086,7 +1085,7 @@ void como_cmd_usage( como_cmd_t cmd )
     }
 
     if ( !plcm_is_empty( &cmd->subcmds ) ) {
-        plss_append_c( str, "\n  Subcommands:\n" );
+        plss_append_string( str, "\n  Subcommands:\n" );
     }
 
     /* Subcmd documents. */
@@ -1099,15 +1098,15 @@ void como_cmd_usage( como_cmd_t cmd )
     }
 
     if ( main_cmd ) {
-        plss_format( str, "\n\n  Copyright (c) %s by %s\n", cmd->year, cmd->author );
+        plss_format_string( str, "\n\n  Copyright (c) %s by %s\n", cmd->year, cmd->author );
     } else {
-        plss_append_c( str, "\n" );
+        plss_append_string( str, "\n" );
     }
 
     if ( cmd->conf->footer ) {
-        plss_format( str, "%s", cmd->conf->footer );
+        plss_format_string( str, "%s", cmd->conf->footer );
     } else {
-        plss_append_ch( str, '\n' );
+        plss_append_char( str, '\n' );
     }
 
     fprintf( stdout, plss_string( str ) );
@@ -1164,8 +1163,8 @@ void como_init( pl_i64_t argc, char** argv, char* author, char* year )
 
     como_cmd = cmd_create();
 
-    como_cmd->author = plam_strdup( &como_mem, author );
-    como_cmd->year = plam_strdup( &como_mem, year );
+    como_cmd->author = plam_store_string( &como_mem, author );
+    como_cmd->year = plam_store_string( &como_mem, year );
 
     como_cmd->conf = config_create();
     como_conf = como_cmd->conf;
@@ -1187,8 +1186,8 @@ void como_spec_subcmd( char* name, char* parentname, como_opt_spec_t spec, pl_i6
         cmd->conf = como_conf;
 
         /* For main both names are the same. */
-        cmd->name = plam_strdup( &como_mem, name );
-        cmd->longname = plam_strdup( &como_mem, name );
+        cmd->name = plam_store_string( &como_mem, name );
+        cmd->longname = plam_store_string( &como_mem, name );
     } else {
         cmd = cmd_create();
         parent = find_cmd_by_name( parentname );
@@ -1201,8 +1200,8 @@ void como_spec_subcmd( char* name, char* parentname, como_opt_spec_t spec, pl_i6
         cmd->conf = config_dup( parent->conf );
 
         /* For subcmd both longname is based on its ancestors. */
-        cmd->name = plam_strdup( &como_mem, name );
-        cmd->longname = plam_format( &como_mem, "%s %s", parent->longname, name );
+        cmd->name = plam_store_string( &como_mem, name );
+        cmd->longname = plam_format_string( &como_mem, "%s %s", parent->longname, name );
     }
 
     cmd->optcnt = size;
