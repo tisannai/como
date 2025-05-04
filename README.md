@@ -63,8 +63,8 @@ You have automatically:
 
 # Building
 
-Como is built using autotools flow. Run `autogen.sh` to get all basic
-files setup.
+Como depends on the `plinth` library. Como is built with `build.sh`
+script.
 
 
 # Documentation
