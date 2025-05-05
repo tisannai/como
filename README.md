@@ -59,10 +59,13 @@ You have automatically:
 
 
 
-# Building
+# Building and installing
 
-Como depends on the `plinth` library. Como is built with `build.sh`
-script.
+Como depends on the `plinth` library. The man page generation requires
+`a2x` for conversion. Como is built with the `build.sh` script.
+
+Install is performed with `install.sh`. Please, edit the script for
+setting the installation root directory.
 
 
 # Documentation
