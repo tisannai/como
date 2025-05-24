@@ -4,7 +4,7 @@
 # install_root=$HOME/usr
 
 if test -z "$install_root"; then
-    echo "Please, set install_root in install.sh before running install.sh."
+    echo "Please, set install_root in do-install before running do-install."
     exit 1
 fi
 
