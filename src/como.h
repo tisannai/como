@@ -264,7 +264,7 @@
  *            option String values can be left out, since only the
  *            document string is used. Default option is referred with
  *            NULL for name.
- * - COMO_EXCLUSIVE: Option that does not coexist with other options.
+ * - COMO_EXCLUSIVE, COMO_PRIORITY: Option that does not coexist with other options.
  * - COMO_SILENT: Option that does not coexist with other options and is not
  *           displayed as an option in Usage Help display. In effect a
  *           sub-option of :exclusive.
@@ -317,6 +317,7 @@
  * - COMO_OPT_ANY: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT
  * - COMO_DEFAULT: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT, COMO_P_DEFAULT
  * - COMO_EXCLUSIVE: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT, COMO_P_MUTEX
+ * - COMO_PRIORITY: COMO_P_NONE, COMO_P_ONE, COMO_P_MANY, COMO_P_OPT, COMO_P_MUTEX
  * - COMO_SILENT: COMO_P_NONE, COMO_P_OPT, COMO_P_HIDDEN
  *
  * Primitives can be used in place of types if exotic options are
@@ -498,6 +499,7 @@ extern const char* como_version;
 #define COMO_DEFAULT ( 1 << 7 )
 /** Disables the other options. */
 #define COMO_EXCLUSIVE ( 1 << 8 )
+#define COMO_PRIORITY ( 1 << 8 )
 /** Non-documented option. */
 #define COMO_SILENT ( 1 << 9 )
 

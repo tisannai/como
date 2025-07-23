@@ -16,7 +16,7 @@
  * Como external vars.
  */
 
-const char* como_version = "0.3";
+const char* como_version = "0.3.1";
 como_cmd_t  como_cmd = NULL;
 como_cmd_t  como_main = NULL;
 pl_i64_t    como_argc = 0;
@@ -695,7 +695,11 @@ static void opt_cmdline( plcm_t str, como_opt_t o )
     }
 
     if ( o->type & COMO_P_OPT ) {
-        plss_append( str, plsr_from_string( "[" ) );
+        if ( o->type & COMO_P_MUTEX ) {
+            plss_append( str, plsr_from_string( "{" ) );
+        } else {
+            plss_append( str, plsr_from_string( "[" ) );
+        }
     }
 
     plss_format_string( str, "%s", como_opt_id( o ) );
@@ -711,7 +715,11 @@ static void opt_cmdline( plcm_t str, como_opt_t o )
     }
 
     if ( o->type & COMO_P_OPT ) {
-        plss_append( str, plsr_from_string( "]" ) );
+        if ( o->type & COMO_P_MUTEX ) {
+            plss_append( str, plsr_from_string( "}" ) );
+        } else {
+            plss_append( str, plsr_from_string( "]" ) );
+        }
     }
 }
 
