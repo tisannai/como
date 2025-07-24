@@ -2,7 +2,7 @@
 
 como_options error: Option "-f" missing for "como_options"...
 
-  como_options [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_options {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -34,7 +34,7 @@ Given "<default>": false
 
 como_options error: No argument given for "-f"...
 
-  como_options [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_options {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -67,7 +67,7 @@ Given "<default>": false
 
 como_options error: No argument given for "-f"...
 
-  como_options [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_options {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -87,7 +87,7 @@ como_options error: No argument given for "-f"...
 
 como_options error: Option "-d" missing for "como_options"...
 
-  como_options [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_options {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -107,7 +107,7 @@ como_options error: Option "-d" missing for "como_options"...
 
 como_options error: No argument given for "-d"...
 
-  como_options [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_options {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -328,7 +328,7 @@ External: ["external", "arguments"]
 
 como_options error: Option "-d" missing for "como_options"...
 
-  como_options [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_options {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -348,7 +348,7 @@ como_options error: Option "-d" missing for "como_options"...
 
 como_options error: Option "-d" missing for "como_options"...
 
-  como_options [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_options {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -368,7 +368,7 @@ como_options error: Option "-d" missing for "como_options"...
 
 como_options error: Unknown option "-q"...
 
-  como_options [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_options {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -388,7 +388,7 @@ como_options error: Unknown option "-q"...
 
 como_options error: No argument given for "-d"...
 
-  como_options [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_options {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -419,7 +419,7 @@ Value "dir": ["dir"]
 Given "<default>": false
 ---- CMD: como_options -f foo -d dir -h
 
-  como_options [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_options {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -437,7 +437,7 @@ Given "<default>": false
 
 ---- CMD: como_options -h -f foo -d dir
 
-  como_options [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_options {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description

@@ -27,7 +27,7 @@ como_config error: No argument given for "-f"...
 
 Additional heading info.
 
-  como_config [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_config {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc     Documentation.
   -f        File argument.
@@ -62,7 +62,7 @@ como_config error: No argument given for "-f"...
 
 Additional heading info.
 
-  como_config [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_config {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc     Documentation.
   -f        File argument.
@@ -96,7 +96,7 @@ como_config error: No argument given for "-d"...
 
 Additional heading info.
 
-  como_config [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_config {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc     Documentation.
   -f        File argument.
@@ -155,7 +155,7 @@ Given "<default>": false
 
 Additional heading info.
 
-  como_config [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_config {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc     Documentation.
   -f        File argument.
@@ -185,7 +185,7 @@ Given "<default>": false
 
 Additional heading info.
 
-  como_config [--doc <doc>*] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_config {--doc <doc>*} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc     Documentation.
   -f        File argument.

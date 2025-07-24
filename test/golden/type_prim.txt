@@ -2,7 +2,7 @@
 
 como_type_prim error: Option "-f" missing for "como_type_prim"...
 
-  como_type_prim [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_type_prim {--doc} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -33,7 +33,7 @@ Given "<default>": false
 
 como_type_prim error: No argument given for "-f"...
 
-  como_type_prim [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_type_prim {--doc} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -65,7 +65,7 @@ Given "<default>": false
 
 como_type_prim error: No argument given for "-f"...
 
-  como_type_prim [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_type_prim {--doc} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -85,7 +85,7 @@ como_type_prim error: No argument given for "-f"...
 
 como_type_prim error: Option "-d" missing for "como_type_prim"...
 
-  como_type_prim [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_type_prim {--doc} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -105,7 +105,7 @@ como_type_prim error: Option "-d" missing for "como_type_prim"...
 
 como_type_prim error: No argument given for "-d"...
 
-  como_type_prim [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_type_prim {--doc} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -326,7 +326,7 @@ External: ["external", "arguments"]
 
 como_type_prim error: Option "-d" missing for "como_type_prim"...
 
-  como_type_prim [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_type_prim {--doc} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -346,7 +346,7 @@ como_type_prim error: Option "-d" missing for "como_type_prim"...
 
 como_type_prim error: Option "-d" missing for "como_type_prim"...
 
-  como_type_prim [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_type_prim {--doc} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -366,7 +366,7 @@ como_type_prim error: Option "-d" missing for "como_type_prim"...
 
 como_type_prim error: Unknown option "-q"...
 
-  como_type_prim [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_type_prim {--doc} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -386,7 +386,7 @@ como_type_prim error: Unknown option "-q"...
 
 como_type_prim error: No argument given for "-d"...
 
-  como_type_prim [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_type_prim {--doc} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -417,7 +417,7 @@ Value "dir": ["dir"]
 Given "<default>": false
 ---- CMD: como_type_prim -f foo -d dir -h
 
-  como_type_prim [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_type_prim {--doc} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
@@ -435,7 +435,7 @@ Given "<default>": false
 
 ---- CMD: como_type_prim -h -f foo -d dir
 
-  como_type_prim [--doc] -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
+  como_type_prim {--doc} -f <file> [--debug] [-m <mode>] [--params <params>+] [-t <types>*] -d <dir>+ [<default>]
 
   --doc       Documentation for option
               with too much description
