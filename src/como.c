@@ -244,7 +244,7 @@ static como_cmd_t find_cmd_by_name( char* name )
  */
 static void add_subcmd( como_cmd_t parent, como_cmd_t subcmd )
 {
-    plcm_store_ptr( &parent->subcmds, &subcmd );
+    plcm_store_ptr( &parent->subcmds, subcmd );
 }
 
 
@@ -416,7 +416,7 @@ static pl_bool_t has_switch_style_doc( como_opt_t opt )
 static void add_value( plcm_t storage, char* item )
 {
     plcm_resize( storage, storage->used + 1 );
-    plcm_store_ptr( storage, &item );
+    plcm_store_ptr( storage, item );
     plcm_terminate_ptr( storage );
 }
 
@@ -560,7 +560,7 @@ static pl_i64_t parse_opts( como_cmd_t cmd, como_cmd_p subcmd )
                         /* Get all arguments for multi-option. */
                         while ( get_arg() && !is_opt() ) {
                             arg = get_arg();
-                            plcm_store_ptr( &( o->value_store ), &arg );
+                            plcm_store_ptr( &( o->value_store ), arg );
                             next_arg();
                         }
                     } else {
@@ -570,7 +570,7 @@ static pl_i64_t parse_opts( como_cmd_t cmd, como_cmd_p subcmd )
                             break;
                         }
                         arg = get_arg();
-                        plcm_store_ptr( &( o->value_store ), &arg );
+                        plcm_store_ptr( &( o->value_store ), arg );
                         next_arg();
                     }
 
