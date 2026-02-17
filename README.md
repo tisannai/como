@@ -61,11 +61,15 @@ You have automatically:
 
 # Building and installing
 
-Como depends on the `plinth` library. The man page generation requires
-`a2x` for conversion. Como is built with the `do-build` script.
+Como depends on the `plinth` library.
 
-Install is performed with `do-install`. Please, edit the script for
-setting the installation root directory.
+Como is built with the `sbin/do-build` script.
+
+Install is performed with `sbin/do-install`. Please, edit the script
+for setting the installation root directory.
+
+The man page generation requires `a2x` for conversion (activate in
+`sbin/do-build`).
 
 
 # Documentation
@@ -75,7 +79,7 @@ Manual page for Como is included in the installation (see: `man/`).
 The source code is documented in Doxygen format. Documentation can be
 generated with:
 
-  doxygen .doxygen
+    doxygen .doxygen
 
 `como.h` related file will include the usage information (equal to man
 page).
@@ -90,10 +94,29 @@ For a complete set of features, see the test programs in `test/`
 directory (`*.c`).
 
 
-# Testing
+## Testing
 
-Testsuite is executed by running `rake test` and results are cleaned
-with `rake clean_test`
+Ceedling based flow is in use:
+
+    shell> ceedling
+
+Testing:
+
+    shell> ceedling test:all
+
+User defines can be placed into `project.yml`. Please refer to
+Ceedling documentation for details.
+
+
+## Ceedling
+
+Standard Ceedling files are not in GIT. These can be added by
+executing:
+
+    shell> ceedling new plinth
+
+in the directory above Plinth. Ceedling prompts for file overwrites.
+You should answer NO in order to use the customized files.
 
 
 # License

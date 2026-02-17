@@ -16,7 +16,9 @@
  * Como external vars.
  */
 
+/** abu-version */
 const char* como_version = "0.3.1";
+
 como_cmd_t  como_cmd = NULL;
 como_cmd_t  como_main = NULL;
 pl_i64_t    como_argc = 0;
