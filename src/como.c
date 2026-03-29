@@ -743,7 +743,7 @@ static void opt_doc( plcm_t str, como_opt_t o, como_cmd_t cmd )
         return;
     }
 
-    plss_use( format_str, 128 );
+    plcm_declare( format_str, 128 );
     plss_format_string( &format_str, "  %%-%ds", cmd->conf->tab );
     format = plss_string( &format_str );
 
@@ -1030,7 +1030,7 @@ void como_cmd_usage( como_cmd_t cmd )
     como_opt_p co;
     pl_bool_t  main_cmd, has_visible;
 
-    plss_use( str_handle, 8192 );
+    plcm_declare( str_handle, 8192 );
     str = &str_handle;
 
     if ( cmd->conf->header ) {
