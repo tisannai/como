@@ -558,8 +558,8 @@ pl_struct( como_opt )
     char* longopt;
 
     /** Array of given option values. */
-    plcm_s value_store; /* Only for internal use. */
-    char** value;
+    plcm_s   value_store; /* Only for internal use. */
+    char**   value;
     pl_i64_t valuecnt;
 
     /** True if option was set on CLI. */

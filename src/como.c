@@ -19,10 +19,10 @@
 /** abu-version */
 const char* como_version = "0.3.1";
 
-como_cmd_t  como_cmd = NULL;
-como_cmd_t  como_main = NULL;
-pl_i64_t    como_argc = 0;
-char**      como_argv = NULL;
+como_cmd_t como_cmd = NULL;
+como_cmd_t como_main = NULL;
+pl_i64_t   como_argc = 0;
+char**     como_argv = NULL;
 
 
 /* Initial memory resource for allocations. */
@@ -757,7 +757,8 @@ static void opt_doc( plcm_t str, como_opt_t o, como_cmd_t cmd )
         if ( o->doc[ e ] == '\n' || o->doc[ e ] == 0 ) {
             if ( first ) {
                 plss_format_string( str, format, como_opt_id( o ) );
-                plss_append( str, plsr_from_string_and_length( (char*)&( o->doc[ s ] ), ( e - s ) ) );
+                plss_append( str,
+                             plsr_from_string_and_length( (char*)&( o->doc[ s ] ), ( e - s ) ) );
                 plss_append_char( str, '\n' );
 
                 if ( o->doc[ e ] == 0 ) {
@@ -772,7 +773,8 @@ static void opt_doc( plcm_t str, como_opt_t o, como_cmd_t cmd )
                     s++;
                     plss_format_string( str, format, "" );
                 }
-                plss_append( str, plsr_from_string_and_length( (char*)&( o->doc[ s ] ), ( e - s ) ) );
+                plss_append( str,
+                             plsr_from_string_and_length( (char*)&( o->doc[ s ] ), ( e - s ) ) );
                 plss_append_char( str, '\n' );
 
                 if ( o->doc[ e ] == 0 ) {
