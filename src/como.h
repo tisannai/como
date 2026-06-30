@@ -785,7 +785,7 @@ como_opt_t como_given( char* name );
 /**
  * Get command option (by name).
  *
- * @param cmd Command containing option.
+ * @param cmd  Command containing option.
  * @param name Option name (NULL for default arg).
  *
  * @return Option.
@@ -795,7 +795,7 @@ como_opt_t como_cmd_opt( como_cmd_t cmd, char* name );
 /**
  * Get value of command option.
  *
- * @param cmd Command containing option.
+ * @param cmd  Command containing option.
  * @param name Option name.
  *
  * @return Option value.
@@ -805,7 +805,7 @@ char** como_cmd_value( como_cmd_t cmd, char* name );
 /**
  * Get given status of command option.
  *
- * @param cmd Command containing option.
+ * @param cmd  Command containing option.
  * @param name Option name.
  *
  * @return Option's given status (true if given).
@@ -815,7 +815,7 @@ como_opt_t como_cmd_given( como_cmd_t cmd, char* name );
 /**
  * Get cmd's sub-command (by name).
  *
- * @param cmd Parent.
+ * @param cmd  Parent.
  * @param name Subcmd name.
  *
  * @return Subcmd.
@@ -895,7 +895,7 @@ void como_conf_help_exit( pl_bool_t val );
  * Report como error with command prefix. Increment error counter.
  *
  * @param format String formatter.
- * @param ... Args for formatter.
+ * @param ...    Args for formatter.
  */
 void como_error( const char* format, ... );
 
@@ -916,7 +916,7 @@ void como_cmd_usage( como_cmd_t cmd );
  * Display options's value(s). Used for testing/debug.
  *
  * @param fh File stream to use.
- * @param o Option to display.
+ * @param o  Option to display.
  */
 void como_display_values( FILE* fh, como_opt_t o );
 
@@ -928,10 +928,10 @@ void como_display_values( FILE* fh, como_opt_t o );
 /**
  * Initialize global como state.
  *
- * @param argc C-main argument count.
- * @param argv C-main argument array.
+ * @param argc   C-main argument count.
+ * @param argv   C-main argument array.
  * @param author Program author.
- * @param year Program creation date (year).
+ * @param year   Program creation date (year).
  */
 void como_init( pl_i64_t argc, char** argv, char* author, char* year );
 
@@ -954,10 +954,10 @@ void como_init( pl_i64_t argc, char** argv, char* author, char* year );
  *                     }, 2 );
  * @endcode
  *
- * @param name Name.
+ * @param name       Name.
  * @param parentname Name of subcmd parent.
- * @param spec Array of option specifications.
- * @param size Size of the specification array.
+ * @param spec       Array of option specifications.
+ * @param size       Size of the specification array.
  */
 void como_spec_subcmd( char* name, char* parentname, como_opt_spec_t spec, pl_i64_t size );
 
@@ -977,7 +977,7 @@ void como_cmd_end( como_cmd_t cmd );
 
 
 /**
- * Same as @see como_cmd_end(), but for default
+ * Same as @see como_cmd_end(), but for default.
  *
  */
 void como_end( void );

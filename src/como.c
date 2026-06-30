@@ -96,8 +96,8 @@ static como_cmd_t cmd_create( void )
  *
  * @param type Option type.
  * @param name Option name.
- * @param opt Option mnemonic.
- * @param doc Option documentaion.
+ * @param opt  Option mnemonic.
+ * @param doc  Option documentaion.
  *
  * @return Structure.
  */
@@ -253,7 +253,7 @@ static void add_subcmd( como_cmd_t parent, como_cmd_t subcmd )
 /**
  * Find option by type.
  *
- * @param cmd Command including option.
+ * @param cmd  Command including option.
  * @param type Option type.
  *
  * @return Option (or NULL).
@@ -276,7 +276,7 @@ static como_opt_t find_opt_by_type( como_cmd_t cmd, como_opt_type_t type )
 /**
  * Find option by name.
  *
- * @param cmd Command including option.
+ * @param cmd  Command including option.
  * @param name Option name (or NULL for COMO_DEFAULT arg).
  *
  * @return Option (or NULL).
@@ -413,7 +413,7 @@ static pl_bool_t has_switch_style_doc( como_opt_t opt )
  * doesn't exist.
  *
  * @param [out] storage Pointer where allocation is stored.
- * @param [in] item Item to store.
+ * @param [in]  item    Item to store.
  */
 static void add_value( plcm_t storage, char* item )
 {
@@ -427,7 +427,7 @@ static void add_value( plcm_t storage, char* item )
  * Check for missing required arguments. Checking ends if exclusive
  * argument is given. Checking continues with subcmd if encountered.
  *
- * @param cmd Command to check.
+ * @param cmd    Command to check.
  * @param errcmd Command that had missing options.
  *
  * @return True if no missing.
@@ -496,7 +496,7 @@ static pl_bool_t check_missing( como_cmd_t cmd, como_cmd_p errcmd )
  * Parse command line and store given option values to options objects
  * until subcmd is encountered or end.
  *
- * @param cmd Command to update.
+ * @param cmd    Command to update.
  * @param subcmd Command to update next.
  *
  * @retval 0 if all arguments have been parsed.
@@ -641,7 +641,7 @@ static pl_i64_t parse_opts( como_cmd_t cmd, como_cmd_p subcmd )
  * Proxy for parse_opts. Checks for status after each subcmd and
  * recurses further if no errors.
  *
- * @param cmd Command to parse.
+ * @param cmd    Command to parse.
  * @param errcmd Command having errors.
  *
  * @return True if no errors.
@@ -688,7 +688,7 @@ static pl_bool_t setup_and_parse( como_cmd_t cmd, como_cmd_p errcmd )
  * Add option's command line formatting (usage) to str.
  *
  * @param [out] str String where command line is stored.
- * @param [in] o Option to add.
+ * @param [in]  o   Option to add.
  */
 static void opt_cmdline( plcm_t str, como_opt_t o )
 {
@@ -730,7 +730,7 @@ static void opt_cmdline( plcm_t str, como_opt_t o )
  * Add option documentation line.
  *
  * @param str String where document is stored.
- * @param o Option to document.
+ * @param o   Option to document.
  * @param cmd Containing command (for configuration lookup).
  */
 static void opt_doc( plcm_t str, como_opt_t o, como_cmd_t cmd )
@@ -810,6 +810,11 @@ static void usage_if_help( como_cmd_t cmd )
 }
 
 
+/**
+ * Cleanup for como and program exit with the status.
+ *
+ * @param status Program exit status.
+ */
 static void quit( int status )
 {
     como_end();
@@ -1204,7 +1209,6 @@ void como_spec_subcmd( char* name, char* parentname, como_opt_spec_t spec, pl_i6
             como_fatal( "Parent \"%s\" does not exist!", parentname );
         }
         cmd->parent = parent;
-        // register_cmd( cmd );
         add_subcmd( parent, cmd );
         cmd->conf = config_dup( parent->conf );
 
